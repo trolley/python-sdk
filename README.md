@@ -1,3 +1,6 @@
+[![Latest Stable Version](https://img.shields.io/pypip/v/paymentrails.svg)](https://pypip.python.org/pypi/paymentrails)
+
+
 # Payment Rails Python SDK
 
 A native Python SDK for the Payment Rails API

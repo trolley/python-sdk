@@ -1,4 +1,4 @@
-[![Latest Stable Version](https://img.shields.io/pypip/v/paymentrails.svg)](https://pypip.python.org/pypi/paymentrails)
+[![Latest Stable Version](https://img.shields.io/pypi/v/paymentrails.svg)](https://pypip.python.org/pypi/paymentrails)
 
 
 # Payment Rails Python SDK

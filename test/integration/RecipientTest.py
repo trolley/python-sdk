@@ -1,6 +1,7 @@
 import sys
 import os
 import unittest
+import uuid
 
 sys.path.append(os.path.abspath('.'))
 
@@ -11,56 +12,61 @@ from paymentrails.recipient_account import RecipientAccount
 
 class RecipientTest(unittest.TestCase):
 
-    public_key = ("public_key")
-    private_key = ("private_key")
+    client = None
 
+    def setUp(self):
+        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIROMENT")
+    
     def test_lifecycle(self):
-        Configuration.set_public_key(RecipientTest.public_key)
-        Configuration.set_private_key(RecipientTest.private_key)
-        payload = {"type": "individual", "firstName": "John",
-                   "lastName": "Smith", "email": "pr@example.com"}
-        response = Recipient.create(payload)
+        uuidString = str(uuid.uuid4())
+        payload = {"type": "individual", "firstName": "Tom", "lastName": "Jones",
+                   "email": "test.create" + uuidString + "@example.com"}
+        response = self.client.recipient.create(payload)
 
-        self.assertTrue(response.name == "John Smith")
+        self.assertTrue(response.name == "Tom Jones")
         self.assertTrue(response.type == "individual")
-        self.assertTrue(response.email == "pr@example.com")
-        self.assertTrue(response.lastName == "Smith")
-        
+        self.assertTrue(response.email == "test.create" +
+                        uuidString + "@example.com")
+        self.assertTrue(response.lastName == "Jones")
+
         recipient_id = response.id
 
-        response = Recipient.update(recipient_id,  {"firstName": "Jon"})
+        response = self.client.recipient.update(
+            recipient_id,  {"firstName": "Jon"})
 
         self.assertTrue(response)
 
-        response = Recipient.delete(recipient_id)
+        response = self.client.recipient.delete(recipient_id)
         self.assertTrue(response)
 
-        response = Recipient.find(recipient_id)
+        response = self.client.recipient.find(recipient_id)
         self.assertTrue(response.status == "archived")
 
     def test_account(self):
-        Configuration.set_public_key(RecipientTest.public_key)
-        Configuration.set_private_key(RecipientTest.private_key)
-
-        payload = {"type": "individual", "firstName": "John",
-               "lastName": "Smith", "email": "pr2@example.com"}
-        response = Recipient.create(payload)
+        uuidString = str(uuid.uuid4())
+        payload = {"type": "individual", "firstName": "Tom", "lastName": "Jones",
+                   "email": "test.create" + uuidString + "@example.com"}
+        response = self.client.recipient.create(payload)
         recipient_id = response.id
 
-        payload = {"type": "bank-transfer", "primary": "true", "country": "CA", "currency": "CAD",
-           "accountNum": "604542847", "bankId": "123", "branchId": "47261",  "accountHolderName": "John Smith"}
-        response = RecipientAccount.create(recipient_id, payload)
+        payload = {"type": "bank-transfer", "currency": "EUR",
+                   "iban": "DE89 3704 0044 0532 0130 00", "country": "DE"}
+        response = self.client.recipient_account.create(recipient_id, payload)
         account_id1 = response.id
 
-        payload = {"type": "bank-transfer", "primary": "true", "country": "CA", "currency": "CAD",
-           "accountNum": "604542847", "bankId": "123", "branchId": "47261",  "accountHolderName": "John Smith"}
-        response = RecipientAccount.create(recipient_id, payload)
+        payload = {"type": "bank-transfer", "currency": "EUR",
+                   "iban": "FR14 2004 1010 0505 0001 3M02 606", "country": "FR"}
+        response = self.client.recipient_account.create(recipient_id, payload)
         account_id2 = response.id
 
-        RecipientAccount.delete(recipient_id, account_id2)
+        response = self.client.recipient_account.delete(
+            recipient_id, account_id2)
+        self.assertTrue(response, True)
 
-        response = RecipientAccount.find(recipient_id, account_id1)
-        self.assertTrue(response.id)
+        response = self.client.recipient_account.find(
+            recipient_id, account_id1)
+        self.assertTrue(response.id, account_id1)
+
 
 if __name__ == '__main__':
     unittest.main()

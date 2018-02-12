@@ -32,24 +32,28 @@ class Client(object):
         """
         return Client(config)
 
-    def get(self, endpoint):
-        """
-        Makes an HTTP GET request to the API
-        """
+    def sendRequest(self,endpoint,method,body=""):
         try:
             timestamp = int(time.time())
             authorization = self.generate_authorization(
-                timestamp, "GET", endpoint, self.config)
+                timestamp, method, endpoint, self.config, body)
 
             headers = {'Content-Type': 'application/json',
                        'Authorization': authorization,
                        'X-PR-Timestamp': str(timestamp)}
-
-            request = requests.get(
-                self.config.enviroment + endpoint, headers=headers)
+            
+            if method is "GET":
+                request = requests.get(self.config.enviroment + endpoint, headers=headers)
+            elif method is "POST":
+                request = requests.post(self.config.enviroment + endpoint, headers=headers, json=body)
+            elif method is "PATCH":
+                request = requests.patch(self.config.enviroment + endpoint, headers=headers, json=body)
+            elif method is "DELETE":
+                request = requests.delete(self.config.enviroment + endpoint, headers=headers)
+            else:
+                self.throw_status_code_exception(None, "Invalid Method")
             if request.status_code != 200 and request.status_code != 204:
-                self.throw_status_code_exception(
-                    request.status_code, request.content.decode("utf-8"))
+                self.throw_status_code_exception(request.status_code, request.content.decode("utf-8"))
 
             data = json.loads(request.content.decode("utf-8"))
             return data
@@ -57,87 +61,32 @@ class Client(object):
         except requests.exceptions.RequestException:
             raise paymentrails.exceptions.invalidServerConnectionException.InvalidServerConnectionException(
                 "Invalid Connection to the server")
+
+    def get(self, endpoint):
+        """
+        Makes an HTTP GET request to the API
+        """
+        return self.sendRequest(endpoint,"GET")
 
     def post(self, endpoint, body):
         """
         Makes an HTTP POST request to the API
         """
-        try:
-            timestamp = int(time.time())
-            authorization = self.generate_authorization(
-                timestamp, "POST", endpoint, self.config, body)
-
-            headers = {'Content-Type': 'application/json',
-                       'Authorization': authorization,
-                       'X-PR-Timestamp': str(timestamp)}
-
-            request = requests.post(self.config.enviroment +
-                                    endpoint, headers=headers, json=body)
-            if request.status_code != 200 and request.status_code != 204:
-                self.throw_status_code_exception(
-                    request.status_code, request.content.decode("utf-8"))
-            data = json.loads(request.content.decode("utf-8"))
-            return data
-
-        except requests.exceptions.RequestException:
-            raise paymentrails.exceptions.invalidServerConnectionException.InvalidServerConnectionException(
-                "Invalid Connection to the server")
+        return self.sendRequest(endpoint,"POST",body)
 
     def patch(self, endpoint, body):
         """
         Makes an HTTP PATCH request to the API
         """
-        try:
-
-            timestamp = int(time.time())
-
-            authorization = self.generate_authorization(
-                timestamp, "PATCH", endpoint, self.config, body)
-
-            headers = {'Content-Type': 'application/json',
-                       'Authorization': authorization,
-                       'X-PR-Timestamp': str(timestamp)}
-
-            request = requests.patch(self.config.enviroment + endpoint,
-                                     headers=headers, json=body)
-            if request.status_code != 200 and request.status_code != 204:
-                self.throw_status_code_exception(
-                    request.status_code, request.content.decode("utf-8"))
-            data = json.loads(request.content.decode("utf-8"))
-            return data
-
-        except requests.exceptions.RequestException:
-            raise paymentrails.exceptions.invalidServerConnectionException.InvalidServerConnectionException(
-                "Invalid Connection to the server")
+        return self.sendRequest(endpoint,"PATCH",body)   
 
     def delete(self, endpoint):
         """
         Makes an HTTP DELETE request to the API
         """
-        try:
+        return self.sendRequest(endpoint,"DELETE")
 
-            timestamp = int(time.time())
-
-            authorization = self.generate_authorization(
-                timestamp, "DELETE", endpoint, self.config)
-
-            headers = {'Content-Type': 'application/json',
-                       'Authorization': authorization,
-                       'X-PR-Timestamp': str(timestamp)}
-            request = requests.delete(
-                self.config.enviroment + endpoint, headers=headers)
-            if request.status_code != 200 and request.status_code != 204:
-                self.throw_status_code_exception(
-                    request.status_code, request.content.decode("utf-8"))
-
-            data = json.loads(request.content.decode("utf-8"))
-            return data
-        except requests.exceptions.RequestException:
-            raise paymentrails.exceptions.invalidServerConnectionException.InvalidServerConnectionException(
-                "Invalid Connection to the server")
-
-    @staticmethod
-    def generate_authorization(timestamp, method, endpoint, config, body=''):
+    def generate_authorization(self,timestamp, method, endpoint, config, body=''):
         """
         Generates an authorization signature for the request header
         """
@@ -145,11 +94,10 @@ class Client(object):
             body = json.dumps(body)
         message = str(timestamp) + '\n' + method + \
             '\n' + endpoint + '\n' + body + '\n'
-        key = bytes(config.get_private_key().encode('utf-8'))
+        key = bytes(self.config.private_key.encode('utf-8'))
         signature = hmac.new(key, msg=message.encode(
             'utf-8'), digestmod=hashlib.sha256).hexdigest()
-        return 'prsign ' + config.get_public_key() + ':' + signature
-
+        return 'prsign ' + self.config.public_key + ':' + signature
     @staticmethod
     def throw_status_code_exception(status_code, message):
         """
@@ -181,4 +129,4 @@ class Client(object):
                 message)
         else:
             raise paymentrails.exceptions.unexpectedException.UnexpectedException(
-                'Unexpected HTTP_RESPONSE # ' + str(status_code))
+                'Unexpected HTTP_RESPONSE # ' + str(status_code) + " " + message)

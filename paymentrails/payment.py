@@ -1,5 +1,5 @@
 from paymentrails.configuration import Configuration
-
+from paymentrails.gateway import Gateway
 
 class Payment:
     """
@@ -37,7 +37,8 @@ class Payment:
             A payment_id and batch_id are required::
             Payment.find('P-dejrtewdsj',B-fjeracjmuflh')
         """
-        return Configuration.gateway().payment.find(payment_id, batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).payment.find(payment_id, batch_id)
 
     @staticmethod
     def create(body, batch_id):
@@ -48,7 +49,8 @@ class Payment:
                {"recipient":{"id":"R-91XNJBKM30F06"},"sourceAmount":"100.10",
                "memo":"Freelance payment"}
         """
-        return Configuration.gateway().payment.create(body, batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).payment.create(body, batch_id)
 
     @staticmethod
     def update(payment_id, body, batch_id):
@@ -57,7 +59,8 @@ class Payment:
             A payment_id, batch_id, and body are required::
             Payment.update('B-fjeracjmuflh',{"sourceAmount":"900.90"},'P-jddfjwojd')
         """
-        return Configuration.gateway().payment.update(payment_id, body, batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).payment.update(payment_id, body, batch_id)
 
     @staticmethod
     def delete(payment_id, batch_id):
@@ -66,7 +69,8 @@ class Payment:
             A payment_id and batch_id are required::
             Payment.delete('P-dejrtewdsj',B-fjeracjmuflh')
         """
-        return Configuration.gateway().payment.delete(payment_id, batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).payment.delete(payment_id, batch_id)
 
     @staticmethod
     def search(page=1, page_number=10, term=""):
@@ -74,7 +78,8 @@ class Payment:
         Query for a payment
             Payment.search(1,10,'test')
         """
-        return Configuration.gateway().payment.search(page, page_number, term)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).payment.search(page, page_number, term)
 
     @staticmethod
     def _initialize(attributes):

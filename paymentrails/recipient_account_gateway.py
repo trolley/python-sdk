@@ -61,16 +61,16 @@ class RecipientAccountGateway(object):
         endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
         response = paymentrails.configuration.Configuration.client(
             self.config).patch(endpoint, body)
-        if response['ok'] is True:
-            return True
-        return False
+        recipaccount = paymentrails.recipient_account.RecipientAccount.factory(
+            response)
+        recipientaccount = namedtuple(
+            "RecipientAccount", recipaccount.keys())(*recipaccount.values())
+        return recipientaccount
 
     def delete(self, recipient_id, recipient_account_id):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
-        response = paymentrails.configuration.Configuration.client(
+        paymentrails.configuration.Configuration.client(
             self.config).delete(endpoint)
-        if response['ok'] is True:
-            return True
-        return False
+        return True

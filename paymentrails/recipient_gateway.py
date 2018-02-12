@@ -12,7 +12,7 @@ class RecipientGateway(object):
         self.gateway = gateway
         self.config = config
 
-    def find(self, recipient_id, term):
+    def find(self, recipient_id, term=""):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/' + term
@@ -43,21 +43,18 @@ class RecipientGateway(object):
         if body is None:
             raise InvalidFieldException("Body cannot be None")
         endpoint = '/v1/recipients/' + recipient_id
-        response = paymentrails.configuration.Configuration.client(
+        paymentrails.configuration.Configuration.client(
             self.config).patch(endpoint, body)
-        if response['ok'] is True:
-            return True
-        return False
+        return True
+       
 
     def delete(self, recipient_id):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id
-        response = paymentrails.configuration.Configuration.client(
+        paymentrails.configuration.Configuration.client(
             self.config).delete(endpoint)
-        if response['ok'] is True:
-            return True
-        return False
+        return True
 
     def search(self, page, page_number, term):
         endpoint = '/v1/recipients?search=' + term + '&page=' + \

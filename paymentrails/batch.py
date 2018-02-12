@@ -1,5 +1,5 @@
 from paymentrails.configuration import Configuration
-
+from paymentrails.gateway import Gateway
 
 class Batch:
     """
@@ -27,7 +27,8 @@ class Batch:
             A batch_id is required::
             Batch.find('B-fjeracjmuflh')
         """
-        return Configuration.gateway().batch.find(batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.find(batch_id)
 
     @staticmethod
     def create(body):
@@ -38,7 +39,8 @@ class Batch:
                 {"payments":[{"recipient":{"id":"R-SBAHDK3DK6M7SUEM"},
                 "sourceAmount":"65","memo":"","sourceCurrency":"CAD"}]})
         """
-        return Configuration.gateway().batch.create(body)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.create(body)
 
     @staticmethod
     def update(batch_id, body):
@@ -49,7 +51,8 @@ class Batch:
             "email":"jsmith@example.com"},"sourceAmount":65,"memo":"Salary",
             "sourceCurrency":"CAD"}]})
         """
-        return Configuration.gateway().batch.update(batch_id, body)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.update(batch_id, body)
 
     @staticmethod
     def delete(batch_id):
@@ -58,7 +61,8 @@ class Batch:
             A batch_id is required::
             Batch.delete('B-fjeracjmuflh')
         """
-        return Configuration.gateway().batch.delete(batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.delete(batch_id)
 
     @staticmethod
     def search(page=1, page_number=10, term=""):
@@ -66,7 +70,8 @@ class Batch:
         Query for a batch
             Batch.search(1,10,'test')
         """
-        return Configuration.gateway().batch.search(page, page_number, term)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.search(page, page_number, term)
 
     @staticmethod
     def summary(batch_id):
@@ -75,7 +80,8 @@ class Batch:
             A batch_id is required::
             Batch.summary('B-fjeracjmuflh')
         """
-        return Configuration.gateway().batch.summary(batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.summary(batch_id)
 
     @staticmethod
     def generate_quote(batch_id):
@@ -84,7 +90,8 @@ class Batch:
             A batch_id is required::
             Batch.generate_quote('B-fjeracjmuflh')
         """
-        return Configuration.gateway().batch.generate_quote(batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.generate_quote(batch_id)
 
     @staticmethod
     def process_batch(batch_id):
@@ -93,7 +100,8 @@ class Batch:
             A batch_id is required::
             Batch.process_batch('B-fjeracjmuflh')
         """
-        return Configuration.gateway().batch.process_batch(batch_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).batch.process_batch(batch_id)
 
     @staticmethod
     def _initialize(attributes):

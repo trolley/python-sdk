@@ -1,5 +1,5 @@
 from paymentrails.configuration import Configuration
-
+from paymentrails.gateway import Gateway
 
 class RecipientAccount:
     """
@@ -37,7 +37,8 @@ class RecipientAccount:
             A recipient_id is required::
             RecipientAccount.findAll('R-fjeracjmuflh')
         """
-        return Configuration.gateway().recipient_account.findAll(recipient_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient_account.findAll(recipient_id)
 
     @staticmethod
     def find(recipient_id, recipient_account_id):
@@ -46,7 +47,8 @@ class RecipientAccount:
             A recipient_id and recipient_account_id are required::
             RecipientAccount.find('R-fjeracjmuflh','A-2DQMpN4jurTFn9gRxobx4C')
         """
-        return Configuration.gateway().recipient_account.find(recipient_id, recipient_account_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient_account.find(recipient_id, recipient_account_id)
        
     @staticmethod
     def create(recipient_id, body):
@@ -55,7 +57,8 @@ class RecipientAccount:
             A recipient_id and body are required::
             RecipientAccount.create('R-4625iLug2GKqKZG2WzAf3e','payload')
         """
-        return Configuration.gateway().recipient_account.create(recipient_id, body)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient_account.create(recipient_id, body)
 
     @staticmethod
     def update(recipient_id, recipient_account_id, body):
@@ -65,7 +68,8 @@ class RecipientAccount:
             RecipientAccount.update('R-fjeracjmuflh','A-2DQMpN4jurTFn9gRxobx4C',
             {"accountHolderName": "Acer Philips"})
         """
-        return Configuration.gateway().recipient_account.update(recipient_id,
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient_account.update(recipient_id,
                                                                 recipient_account_id, body)
 
     @staticmethod
@@ -75,7 +79,8 @@ class RecipientAccount:
             A recipient_id and recipient_account_id are required::
             RecipientAccount.delete('R-fjeracjmuflh','A-2DQMpN4jurTFn9gRxobx4C')
         """
-        return Configuration.gateway().recipient_account.delete(recipient_id, recipient_account_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient_account.delete(recipient_id, recipient_account_id)
 
     @staticmethod
     def _initialize(attributes):

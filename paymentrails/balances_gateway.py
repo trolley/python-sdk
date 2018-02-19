@@ -16,7 +16,7 @@ class BalancesGateway(object):
     def find(self, term=""):
         if term is None:
             raise InvalidFieldException("Term cannot be None")
-        endpoint = '/v1/profile/balances/' + term
+        endpoint = '/v1/balances/' + term
         response = paymentrails.configuration.Configuration.client(
             self.config).get(endpoint)
         oldbalance = paymentrails.balances.Balances.factory(response)

@@ -5,16 +5,17 @@ import hashlib
 import json
 import requests
 
-import paymentrails.exceptions.invalidServerConnectionException
-import paymentrails.exceptions.unexpectedException
-import paymentrails.exceptions.notFoundException
-import paymentrails.exceptions.authenticationException
-import paymentrails.exceptions.authorizationException
-import paymentrails.exceptions.invalidFieldException
-import paymentrails.exceptions.tooManyRequestsException
-import paymentrails.exceptions.downForMaintenanceException
-import paymentrails.exceptions.malformedException
-import paymentrails.exceptions.invalidStatusException
+from paymentrails.exceptions.invalidFieldException import InvalidFieldException
+from paymentrails.exceptions.unexpectedException import UnexpectedException
+from paymentrails.exceptions.notFoundException import NotFoundException
+from paymentrails.exceptions.authenticationException import AuthenticationException
+from paymentrails.exceptions.authorizationException import AuthorizationException
+from paymentrails.exceptions.invalidFieldException import InvalidFieldException
+from paymentrails.exceptions.tooManyRequestsException import TooManyRequestsException
+from paymentrails.exceptions.downForMaintenanceException import DownForMaintenanceException
+from paymentrails.exceptions.malformedException import MalformedException
+from paymentrails.exceptions.invalidStatusException import InvalidStatusException
+from paymentrails.exceptions.invalidServerConnectionException import InvalidServerConnectionException
 
 
 class Client(object):
@@ -35,8 +36,7 @@ class Client(object):
     def sendRequest(self,endpoint,method,body=""):
         try:
             timestamp = int(time.time())
-            authorization = self.generate_authorization(
-                timestamp, method, endpoint, self.config, body)
+            authorization = self.generate_authorization(timestamp, method, endpoint, self.config, body)
 
             headers = {'Content-Type': 'application/json',
                        'Authorization': authorization,
@@ -59,8 +59,7 @@ class Client(object):
             return data
 
         except requests.exceptions.RequestException:
-            raise paymentrails.exceptions.invalidServerConnectionException.InvalidServerConnectionException(
-                "Invalid Connection to the server")
+            raise InvalidServerConnectionException("Invalid Connection to the server")
 
     def get(self, endpoint):
         """
@@ -104,29 +103,21 @@ class Client(object):
         Throws an exception based on the type of error
         """
         if status_code == 400:
-            raise paymentrails.exceptions.malformedException.MalformedException(
-                message)
+            raise MalformedException(message)
         elif status_code == 401:
-            raise paymentrails.exceptions.authenticationException.AuthenticationException(
-                message)
+            raise AuthenticationException(message)
         elif status_code == 403:
-            raise paymentrails.exceptions.authorizationException.AuthorizationException(
-                message)
+            raise AuthorizationException(message)
         elif status_code == 404:
-            raise paymentrails.exceptions.notFoundException.NotFoundException(
-                message)
+            raise NotFoundException(message)
         elif status_code == 406:
-            raise paymentrails.exceptions.invalidStatusException.InvalidStatusException(
-                message)
+            raise InvalidStatusException(message)
         elif status_code == 429:
-            raise paymentrails.exceptions.tooManyRequestsException.TooManyRequestsException(
-                message)
+            raise TooManyRequestsException(message)
         elif status_code == 500:
-            raise paymentrails.exceptions.invalidServerConnectionException.InvalidServerConnectionException(
-                message)
+            raise InvalidServerConnectionException(message)
         elif status_code == 503:
-            raise paymentrails.exceptions.downForMaintenanceException.DownForMaintenanceException(
-                message)
+            raise DownForMaintenanceException(message)
         else:
-            raise paymentrails.exceptions.unexpectedException.UnexpectedException(
+            raise UnexpectedException(
                 'Unexpected HTTP_RESPONSE # ' + str(status_code) + " " + message)

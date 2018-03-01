@@ -1,5 +1,5 @@
 from paymentrails.configuration import Configuration
-
+from paymentrails.gateway import Gateway
 class Recipient:
     """
     A class that facilitates Client requests to
@@ -43,8 +43,8 @@ class Recipient:
             A recipient_id is required::
             Recipient.find('R-fjeracjmuflh')
         """
-        recip = Configuration.gateway().recipient.find(recipient_id, term)
-        return recip
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient.find(recipient_id, term)
     @staticmethod
     def create(body):
         """
@@ -53,7 +53,8 @@ class Recipient:
             Recipient.create({"type": "individual", "firstName": "John",
                                     "lastName": "Smith", "email": "jh@edxample.com"})
         """
-        return Configuration.gateway().recipient.create(body)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient.create(body)
 
     @staticmethod
     def update(recipient_id, body):
@@ -62,7 +63,8 @@ class Recipient:
             A recipient_id and body are required::
             Recipient.update({'firstName': 'tom'})
         """
-        return Configuration.gateway().recipient.update(recipient_id, body)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient.update(recipient_id, body)
 
     @staticmethod
     def delete(recipient_id):
@@ -71,7 +73,8 @@ class Recipient:
             A recipient_id is required::
             Recipient.delete('R-fjeracjmuflh')
         """
-        return Configuration.gateway().recipient.delete(recipient_id)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient.delete(recipient_id)
 
     @staticmethod
     def search(page=1, page_number=10, term=""):
@@ -79,7 +82,8 @@ class Recipient:
         Query for a recipient
             Recipient.search(1,10,'test')
         """
-        return Configuration.gateway().recipient.search(page, page_number, term)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).recipient.search(page, page_number, term)
 
     @staticmethod
     def _initialize(attributes):

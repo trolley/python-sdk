@@ -41,22 +41,17 @@ class PaymentGateway(object):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
         endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
-        response = paymentrails.configuration.Configuration.client(
+        paymentrails.configuration.Configuration.client(
             self.config).patch(endpoint, body)
-        if response['ok'] is True:
-            return True
-        return False
+        return True
 
     def delete(self, payment_id, batch_id):
         if payment_id is None:
             raise InvalidFieldException("Payment id cannot be None.")
         endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
-        response = paymentrails.configuration.Configuration.client(
+        paymentrails.configuration.Configuration.client(
             self.config).delete(endpoint)
-        if response['ok'] is True:
-            return True
-        return False
-
+        return True
     def search(self, page=1, page_number=10, term=""):
         endpoint = '/v1/batches?search=' + term + \
             '&page=' + str(page) + '&pageSize=' + str(page_number)

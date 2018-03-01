@@ -1,5 +1,5 @@
 from paymentrails.configuration import Configuration
-
+from paymentrails.gateway import Gateway
 
 class Balances:
     """
@@ -15,7 +15,8 @@ class Balances:
         Retrieve a balance
             Balances.find()
         """
-        return Configuration.gateway().balances.find(term)
+        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        return Gateway(config).balances.find(term)
     @staticmethod
     def _initialize(attributes):
         """Initialize fields and return a dict of attributes."""

@@ -1,6 +1,5 @@
 
 from paymentrails.client import Client
-# import paymentrails.client
 from paymentrails.gateway import Gateway
 
 class Configuration(object):
@@ -10,11 +9,16 @@ class Configuration(object):
 
     public_key = ''
     private_key = ''
-    enviroment = 'https://api.paymentrails.com'
+    enviroment = ''
+
+    def __init__(self, public_key="", private_key="", enviroment=""):
+        self.public_key = public_key
+        self.private_key = private_key
+        self.enviroment = Configuration.set_enviroment(enviroment)
 
     @staticmethod
-    def gateway():
-        return Gateway(config=Configuration.instantiate())
+    def gateway(public_key, private_key, enviroment):
+        return Gateway(Configuration(public_key, private_key, enviroment))
 
     @staticmethod
     def client(config):
@@ -51,6 +55,9 @@ class Configuration(object):
         Get method for the private key
         """
         Configuration.private_key = private_key
+    @staticmethod
+    def set_api_base(enviroment):
+        Configuration.enviroment = Configuration.set_enviroment(enviroment)
 
     @staticmethod
     def set_enviroment(enviroment):
@@ -58,8 +65,10 @@ class Configuration(object):
         Set method to change the enviroment
         """
         if enviroment == 'production':
-            Configuration.enviroment = 'https://api.paymentrails.com'
+            return 'https://api.paymentrails.com'
         elif enviroment == 'development':
-            Configuration.enviroment = 'http://api.railz.io'
+            return  'http://api.railz.io'
         elif enviroment == 'integration':
-            Configuration.enviroment = 'http://api.local.dev:3000'
+           return  'http://api.local.dev:3000'
+        return enviroment
+    

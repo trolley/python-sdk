@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [batch_gateway](../classes/batch_gateway.md)
+[Payment Rails Python SDK](../README.md) > [batchgateway](../classes/batchgateway.md)
 
 
 
@@ -13,14 +13,14 @@ Gateway class for batches
 
 ### Methods
 
-* [create](batch_gateway.md#create)
-* [find](batch_gateway.md#find)
-* [generate_quote](batch_gateway.md#generate_quote)
-* [delete](batch_gateway.md#delete)
-* [search](batch_gateway.md#search)
-* [process_batch](batch_gateway.md#process_batch)
-* [summary](batch_gateway.md#summary)
-* [update](batch_gateway.md#update)
+* [create](batchgateway.md#create)
+* [find](batchgateway.md#find)
+* [generate_quote](batchgateway.md#generate_quote)
+* [delete](batchgateway.md#delete)
+* [search](batchgateway.md#search)
+* [process_batch](batchgateway.md#process_batch)
+* [summary](batchgateway.md#summary)
+* [update](batchgateway.md#update)
 
 
 

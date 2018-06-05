@@ -15,11 +15,10 @@ Gateway class for batches
 
 * [create](batch_gateway.md#create)
 * [find](batch_gateway.md#find)
-* [generateQuote](batch_gateway.md#generatequote)
-* [paymentList](batch_gateway.md#paymentlist)
+* [generate_quote](batch_gateway.md#generate_quote)
 * [delete](batch_gateway.md#delete)
 * [search](batch_gateway.md#search)
-* [processBatch](batch_gateway.md#processBatch)
+* [process_batch](batch_gateway.md#process_batch)
 * [summary](batch_gateway.md#summary)
 * [update](batch_gateway.md#update)
 
@@ -35,7 +34,7 @@ Gateway class for batches
 
 
 
-*Defined in [batch_gateway.py:95](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L95)*
+*Defined in [batch_gateway.py:27](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L27)*
 
 
 
@@ -82,7 +81,7 @@ ___
 
 
 
-*Defined in [batch_gateway.py:67](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L67)*
+*Defined in [batch_gateway.py:17](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L17)*
 
 
 
@@ -109,15 +108,15 @@ Retrieves a batch based on the batch id
 
 ___
 
-<a id="generatequote"></a>
+<a id="generate_quote"></a>
 
-###  generateQuote
+###  generate_quote
 
-► **generateQuote**(batchId: *`string`*): `Batch`
+► **generate_quote**(batchId: *`string`*): `Batch`
 
 
 
-*Defined in [batch_gateway.py:182](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L182)*
+*Defined in [batch_gateway.py:80](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L80)*
 
 
 
@@ -137,44 +136,6 @@ Generate a FX quote for this batch
 **Returns:** `Batch`
 
 
-
-
-
-___
-
-<a id="paymentlist"></a>
-
-###  paymentList
-
-► **paymentList**(batchId: *`string`*, page?: *`number`*, pageSize?: *`number`*): `Payment`[]>
-
-
-
-*Defined in [batch_gateway.py:166](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L166)*
-
-
-
-Return a paginated list of payments for this batch
-
-
-**Parameters:**
-
-| Param | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| batchId | `string`  | - |   Payment Rails payment id (e.g. "B-xx999bb") |
-| page | `number`  | 1 |   starting a 1 |
-| pageSize | `number`  | 10 |   in the range 0...1000 |
-
-
-
-
-
-**Returns:** `Payment`[]
-
-
-
-
-
 ___
 
 <a id="delete"></a>
@@ -184,7 +145,7 @@ ___
 ► **delete**(batchId: *`string`*): `Boolean`
 
 
-*Defined in [batch_gateway.py:132](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L132)*
+*Defined in [batch_gateway.py:47](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L47)*
 
 
 
@@ -219,7 +180,7 @@ ___
 
 
 
-*Defined in [batch_gateway.py:146](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L146)*
+*Defined in [batch_gateway.py:54](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L54)*
 
 
 
@@ -246,15 +207,15 @@ Search for a batch matching the given term
 
 ___
 
-<a id="processBatch"></a>
+<a id="process_batch"></a>
 
-###  processBatch
+###  process_batch
 
-► **processBatch**(batchId: *`string`*): `Batch`
+► **process_batch**(batchId: *`string`*): `Batch`
 
 
 
-*Defined in [batch_gateway.py:194](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L194)*
+*Defined in [batch_gateway.py:90](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L90)*
 
 
 
@@ -287,7 +248,7 @@ ___
 
 
 
-*Defined in [batch_gateway.py:206](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L206)*
+*Defined in [batch_gateway.py:68](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L68)*
 
 
 
@@ -320,7 +281,7 @@ ___
 
 
 
-*Defined in [batch_gateway.py:117](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L117)*
+*Defined in [batch_gateway.py:37](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch_gateway.py#L37)*
 
 
 
@@ -328,7 +289,7 @@ Update the batch data, note you can only update the information of a batch not t
 
     payload = {"payments": [{"recipient": {"id": "R-4625iLug2GKqKZG2WzAf3e"},
     "sourceAmount": "65", "memo": "", "sourceCurrency": "USD"}]}
-    
+
     batch = client.batch.create(payload);
 
 

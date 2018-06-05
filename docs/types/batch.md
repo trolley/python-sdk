@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [BatchInput](../types/batch.md)
+[Payment Rails Python SDK](../README.md) > [Batch](../types/batch.md)
 
 
 
@@ -10,7 +10,7 @@
 
 ###  description
 
-**●  description**:  *`undefined`⎮`string`* 
+**●  description**:  *`undefined`⎮`string`*
 
 *Defined in [batch.py:15](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch.py#L15)*
 
@@ -25,7 +25,7 @@ ___
 
 ###  sourceCurrency
 
-**●  sourceCurrency**:  *`undefined`⎮`string`* 
+**●  sourceCurrency**:  *`undefined`⎮`string`*
 
 *Defined in [batch.py:14](https://github.com/PaymentRails/python-sdk/tree/master/paymentrails/batch.py#L14)*
 

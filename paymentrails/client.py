@@ -42,13 +42,13 @@ class Client(object):
                        'Authorization': authorization,
                        'X-PR-Timestamp': str(timestamp)}
             
-            if method is "GET":
+            if method == "GET":
                 request = requests.get(self.config.enviroment + endpoint, headers=headers)
-            elif method is "POST":
+            elif method == "POST":
                 request = requests.post(self.config.enviroment + endpoint, headers=headers, json=body)
-            elif method is "PATCH":
+            elif method == "PATCH":
                 request = requests.patch(self.config.enviroment + endpoint, headers=headers, json=body)
-            elif method is "DELETE":
+            elif method == "DELETE":
                 request = requests.delete(self.config.enviroment + endpoint, headers=headers)
             else:
                 self.throw_status_code_exception(None, "Invalid Method")

@@ -1,6 +1,8 @@
 from collections import namedtuple
 from paymentrails.exceptions.invalidFieldException import InvalidFieldException
 import paymentrails.configuration
+from paymentrails.utils import UrlUtils
+
 
 class RecipientGateway(object):
     """
@@ -46,7 +48,6 @@ class RecipientGateway(object):
         paymentrails.configuration.Configuration.client(
             self.config).patch(endpoint, body)
         return True
-       
 
     def delete(self, recipient_id):
         if recipient_id is None:
@@ -56,9 +57,10 @@ class RecipientGateway(object):
             self.config).delete(endpoint)
         return True
 
-    def search(self, page, page_number, term):
-        endpoint = '/v1/recipients?search=' + term + '&page=' + \
-            str(page) + '&pageSize=' + str(page_number)
+    def search(self, page=None, page_size=None, search=None, name=None, email=None, reference_id=None, start_date=None,
+               end_date=None, status=None, compliance_status=None, country=None, payout_method=None, currency=None,
+               order_by=None, sort_by=None):
+        endpoint = '/v1/recipients?' + UrlUtils.parse(locals())
         response = paymentrails.configuration.Configuration.client(
             self.config).get(endpoint)
         recipients = []

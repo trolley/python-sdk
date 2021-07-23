@@ -28,6 +28,8 @@ class PaymentGateway(object):
     def create(self, body, batch_id):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
+        elif batch_id is None:
+            raise InvalidFieldException("Batch ID cannot be None.")
         endpoint = '/v1/batches/' + batch_id + '/payments/'
         response = paymentrails.configuration.Configuration.client(
             self.config).post(endpoint, body)

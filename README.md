@@ -1,10 +1,11 @@
 [![Latest Stable Version](https://img.shields.io/pypi/v/paymentrails.svg)](https://pypi.python.org/pypi/paymentrails)
 
 
-# Payment Rails Python SDK
+# Payment Rails[^1] Python SDK
 
 A native Python SDK for the Payment Rails API
 
+[^1]: [Payment Rails is now Trolley](https://www.trolley.com/payment-rails-is-now-trolley-series-a), we'll be updating our SDKs to support the new domain during the first half of 2022.
 
 ## Installation
 

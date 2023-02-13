@@ -9,6 +9,7 @@ class Recipient:
     _attributes = {
         "id": "",
         "routeType": "",
+        "routeMinimum": "",
         "estimatedFees": "",
         "referenceId": "",
         "email": "",
@@ -92,6 +93,7 @@ class Recipient:
         fields = [
             "id",
             "routeType",
+            "routeMinimum",
             "estimatedFees",
             "id",
             "referenceId",

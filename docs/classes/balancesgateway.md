@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [balances_gateway](../classes/balances_gateway.md)
+[Trolley Python SDK](../README.md) > [balances_gateway](../classes/balances_gateway.md)
 
 
 

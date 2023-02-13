@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [recipient_account_gateway](../classes/recipientaccountgateway.md)
+[Trolley Python SDK](../README.md) > [recipient_account_gateway](../classes/recipientaccountgateway.md)
 
 
 
@@ -32,7 +32,7 @@
 
 
 
-Fetch all of the accounts for a given Payment Rails recipient
+Fetch all of the accounts for a given Trolley recipient
 
     accounts = client.recipient_account.findAll('R-1234');
 
@@ -44,7 +44,7 @@ Fetch all of the accounts for a given Payment Rails recipient
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
 
 
 
@@ -83,7 +83,7 @@ Create a new recipient account
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
 | body | `string`   |  Account information |
 
 
@@ -110,7 +110,7 @@ ___
 
 
 
-Fetch a specific account for a given Payment Rails recipient
+Fetch a specific account for a given Trolley recipient
 
     account = client.recipient_account.find('R-1234', 'A-789');
 *__throws__*: {NotFound} if account or recipient don't exist
@@ -121,8 +121,8 @@ Fetch a specific account for a given Payment Rails recipient
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
-| accountId | `string`   |  The Payment Rails account ID (e.g. A-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
+| accountId | `string`   |  The Trolley account ID (e.g. A-xyzzy) |
 
 
 
@@ -157,8 +157,8 @@ Delete the given recipient account. This will only return success, otherwise it 
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
-| accountId | `string`   |  The Payment Rails account ID (e.g. A-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
+| accountId | `string`   |  The Trolley account ID (e.g. A-xyzzy) |
 
 
 
@@ -194,8 +194,8 @@ Update a recipient account. Note: Updating an account will create a new account 
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
-| accountId | `string`   |  The Payment Rails account ID (e.g. A-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
+| accountId | `string`   |  The Trolley account ID (e.g. A-xyzzy) |
 | body | `any`   |  Account information |
 
 

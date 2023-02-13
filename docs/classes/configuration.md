@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [Configuration](../classes/configuration.md)
+[Trolley Python SDK](../README.md) > [Configuration](../classes/configuration.md)
 
 
 
@@ -70,7 +70,7 @@ ___
 
 
 
-Set the Payment Rails API environment that your using
+Set the Trolley API environment that your using
 
 
 **Parameters:**

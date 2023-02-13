@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [DownForMaintenance](../classes/exceptions.downformaintenance.md)
+[Trolley Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [DownForMaintenance](../classes/exceptions.downformaintenance.md)
 
 
 

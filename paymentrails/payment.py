@@ -4,7 +4,7 @@ from paymentrails.gateway import Gateway
 class Payment:
     """
     A class that facilitates Client requests to
-    the PaymentRails API in regards to Payments.
+    the Trolley API in regards to Payments.
     """
 
     _attributes = {

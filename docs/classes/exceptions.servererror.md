@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [ServerError](../classes/exceptions.servererror.md)
+[Trolley Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [ServerError](../classes/exceptions.servererror.md)
 
 
 

@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [configurationParams](../types/configurationparams.md)
+[Trolley Python SDK](../README.md) > [configurationParams](../types/configurationparams.md)
 
 
 
@@ -32,7 +32,7 @@ ___
 
 
 
-The Payment Rails public key
+The Trolley public key
 
 
 ___
@@ -47,7 +47,7 @@ ___
 
 
 
-The Payment Rails private key
+The Trolley private key
 
 
 

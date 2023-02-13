@@ -8,7 +8,7 @@ import paymentrails.configuration
 
 class Gateway(object):
     """
-    PaymentRails gateway module
+    Trolley gateway module
     """
 
     def __init__(self, config=None, **kwargs):

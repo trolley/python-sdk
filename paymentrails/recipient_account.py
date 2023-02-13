@@ -4,7 +4,7 @@ from paymentrails.gateway import Gateway
 class RecipientAccount:
     """
     A class that facilitates Client requests to
-    the PaymentRails API in regards to Recipient Accounts.
+    the Trolley API in regards to Recipient Accounts.
     """
 
     _attributes = {

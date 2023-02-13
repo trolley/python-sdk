@@ -1,7 +1,7 @@
 
 
 
-#  Payment Rails Python SDK
+#  Trolley Python SDK
 
 ## Index
 
@@ -33,7 +33,7 @@
 ---
 
 
-Create a client for the Payment Rails Python API
+Create a client for the Trolley Python API
 
 
 	client = Configuration.gateway("YOUR-PUBLIC-API","YOUR-PRIVATE-API","production")

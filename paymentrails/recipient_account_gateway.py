@@ -5,7 +5,7 @@ import paymentrails.configuration
 
 class RecipientAccountGateway(object):
     """
-    PaymentRails RecipientAccount processor
+    Trolley RecipientAccount processor
     Creates and manages bank accounts
     """
 

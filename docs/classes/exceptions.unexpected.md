@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [Unexpected](../classes/exceptions.unexpected.md)
+[Trolley Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [Unexpected](../classes/exceptions.unexpected.md)
 
 
 

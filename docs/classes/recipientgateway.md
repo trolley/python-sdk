@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [recipient_gateway](../classes/recipientgateway.md)
+[Trolley Python SDK](../README.md) > [recipient_gateway](../classes/recipientgateway.md)
 
 
 
@@ -62,7 +62,7 @@ ___
 
 
 
-Find a specific recipient by their Payment Rails recipient ID
+Find a specific recipient by their Trolley recipient ID
 
     recipient = client.recipient.find("R-fj57vn7emfiwdm8cjmd")
 
@@ -71,7 +71,7 @@ Find a specific recipient by their Payment Rails recipient ID
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
 
 
 
@@ -105,7 +105,7 @@ Delete the given recipient.
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| recipientId | `string`   |  The Payment Rails recipient ID (e.g. R-xyzzy) |
+| recipientId | `string`   |  The Trolley recipient ID (e.g. R-xyzzy) |
 
 
 

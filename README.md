@@ -20,6 +20,17 @@ A native Python SDK for the Trolley API
 
 * Python
 * [requests](http://docs.python-requests.org/en/latest/)
+* [Mock](https://pypi.org/project/mock/) - For unit tests
+
+## Running Tests
+
+```
+// unit tests
+$ python -m unittest test/unit/testBalances.py
+
+//integration tests
+$ python test/integration/RecipientTest.py
+```
 
 ## Getting Started
 

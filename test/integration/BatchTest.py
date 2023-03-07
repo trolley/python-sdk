@@ -17,7 +17,7 @@ class BatchTest(unittest.TestCase):
     client = None
 
     def setUp(self):
-        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIROMENT")
+        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIRONMENT")
 
     def test_processing(self):
         uuidString = str(uuid.uuid4())
@@ -26,12 +26,11 @@ class BatchTest(unittest.TestCase):
         response = self.client.recipient.create(payload)
         recipient_id = response.id
 
-        payload = {"type": "bank-transfer", "primary": "true", "country": "CA", "currency": "USD",
-                   "accountNum": "604542847", "bankId": "123", "branchId": "47261",  "accountHolderName": "Tom Jones"}
+        payload = {"type": "bank-transfer", "primary": True, "country": "DE", "currency": "EUR", "iban": "DE89 3704 0044 0532 0130 00"}
         response = self.client.recipient_account.create(recipient_id, payload)
 
         payload = {"payments": [{"recipient": {
-            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "USD"}]}
+            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "EUR"}]}
         response = self.client.batch.create(payload)
         batch_id = response.id
 
@@ -47,14 +46,14 @@ class BatchTest(unittest.TestCase):
         response = self.client.recipient.create(payload)
         recipient_id = response.id
 
-        payload = {"type": "bank-transfer", "primary": "true", "country": "CA", "currency": "USD",
-                   "accountNum": "604542847", "bankId": "123", "branchId": "47261",  "accountHolderName": "Tom Jones"}
+        payload = {"type": "bank-transfer", "primary": True, "country": "DE", "currency": "EUR", "iban": "DE89 3704 0044 0532 0130 00"}
+
         response = self.client.recipient_account.create(recipient_id, payload)
 
         payload = {"payments": [{"recipient": {
-            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "USD"}]}
+            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "EUR"}]}
         response = self.client.batch.create(payload)
-        self.assertTrue(response.currency == "USD")
+        self.assertTrue(response.currency == "CAD")
 
     def test_delete(self):
         uuidString = str(uuid.uuid4())
@@ -64,12 +63,11 @@ class BatchTest(unittest.TestCase):
         response = self.client.recipient.create(payload)
         recipient_id = response.id
 
-        payload = {"type": "bank-transfer", "primary": "true", "country": "CA", "currency": "USD",
-                   "accountNum": "604542847", "bankId": "123", "branchId": "47261",  "accountHolderName": "Tom Jones"}
+        payload = {"type": "bank-transfer", "primary": True, "country": "DE", "currency": "EUR", "iban": "DE89 3704 0044 0532 0130 00"}
         response = self.client.recipient_account.create(recipient_id, payload)
 
         payload = {"payments": [{"recipient": {
-            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "USD"}]}
+            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "EUR"}]}
         response = self.client.batch.create(payload)
         batch_id = response.id
 
@@ -83,18 +81,17 @@ class BatchTest(unittest.TestCase):
         response = self.client.recipient.create(payload)
         recipient_id = response.id
 
-        payload = {"type": "bank-transfer", "primary": "true", "country": "CA", "currency": "USD",
-                   "accountNum": "604542847", "bankId": "123", "branchId": "47261",  "accountHolderName": "Tom Jones"}
+        payload = {"type": "bank-transfer", "primary": True, "country": "DE", "currency": "EUR", "iban": "DE89 3704 0044 0532 0130 00"}
         response = self.client.recipient_account.create(recipient_id, payload)
 
         payload = {"payments": [{"recipient": {
-            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "USD"}]}
+            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "EUR"}]}
         response = self.client.batch.create(payload)
         batch_id = response.id
 
         payload = {"recipient":{"id": recipient_id},"sourceAmount":"100.10","memo":"Freelance payment"}
         response = self.client.payment.create(payload, batch_id)
-        self.assertTrue(response.sourceAmount == '100.10')
+        self.assertTrue(response.sourceAmount == '76.08')
 
 if __name__ == '__main__':
     unittest.main()

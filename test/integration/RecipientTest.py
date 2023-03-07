@@ -15,7 +15,7 @@ class RecipientTest(unittest.TestCase):
     client = None
 
     def setUp(self):
-        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIROMENT")
+        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIRONMENT")
     
     def test_lifecycle(self):
         uuidString = str(uuid.uuid4())

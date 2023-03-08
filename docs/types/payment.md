@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [PaymentInput](../types/payment.md)
+[Trolley Python SDK](../README.md) > [PaymentInput](../types/payment.md)
 
 
 

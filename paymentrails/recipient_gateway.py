@@ -6,7 +6,7 @@ from paymentrails.utils import UrlUtils
 
 class RecipientGateway(object):
     """
-    PaymentRails Recipient processor
+    Trolley Recipient processor
     Creates and manages transactions
     """
 

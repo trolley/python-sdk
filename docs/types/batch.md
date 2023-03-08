@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [Batch](../types/batch.md)
+[Trolley Python SDK](../README.md) > [Batch](../types/batch.md)
 
 
 

@@ -5,7 +5,7 @@ import paymentrails.configuration
 
 class PaymentGateway(object):
     """
-    PaymentRails Payment processor
+    Trolley Payment processor
     Creates and manages transactions
     """
 

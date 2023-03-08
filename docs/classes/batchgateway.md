@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [batchgateway](../classes/batchgateway.md)
+[Trolley Python SDK](../README.md) > [batchgateway](../classes/batchgateway.md)
 
 
 
@@ -94,7 +94,7 @@ Retrieves a batch based on the batch id
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| batchId | `string`   |  Payment Rails batch id (e.g. "B-xx999bb") |
+| batchId | `string`   |  Trolley batch id (e.g. "B-xx999bb") |
 
 
 
@@ -127,7 +127,7 @@ Generate a FX quote for this batch
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| batchId | `string`   |  Payment Rails payment id (e.g. "B-xx999bb") |
+| batchId | `string`   |  Trolley payment id (e.g. "B-xx999bb") |
 
 
 
@@ -158,8 +158,8 @@ Delete the given batch
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| batchId | `string`   |  Payment Rails batch (e.g. "B-xx999bb") |
-| batch | `Batch`   |  Payment Rails batch |
+| batchId | `string`   |  Trolley batch (e.g. "B-xx999bb") |
+| batch | `Batch`   |  Trolley batch |
 
 
 
@@ -226,7 +226,7 @@ Start processing this batch
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| batchId | `string`   |  Payment Rails batch id (e.g. "B-xx999bb") |
+| batchId | `string`   |  Trolley batch id (e.g. "B-xx999bb") |
 
 
 
@@ -259,7 +259,7 @@ Get a transaction totaled summary for this batch
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| batchId | `string`   |  Payment Rails payment id (e.g. "B-xx999bb") |
+| batchId | `string`   |  Trolley payment id (e.g. "B-xx999bb") |
 
 
 

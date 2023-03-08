@@ -40,7 +40,9 @@ class Client(object):
 
             headers = {'Content-Type': 'application/json',
                        'Authorization': authorization,
-                       'X-PR-Timestamp': str(timestamp)}
+                       'X-PR-Timestamp': str(timestamp),
+                       'Trolley-Source': 'python-sdk_0.2'
+                       }
             
             if method == "GET":
                 request = requests.get(self.config.enviroment + endpoint, headers=headers)

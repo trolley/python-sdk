@@ -1,11 +1,11 @@
 [![Latest Stable Version](https://img.shields.io/pypi/v/paymentrails.svg)](https://pypi.python.org/pypi/paymentrails)
 
 
-# Payment Rails[^1] Python SDK
+# Trolley Python SDK (Previously Payment Rails[^1])
 
-A native Python SDK for the Payment Rails API
+A native Python SDK for the Trolley API
 
-[^1]: [Payment Rails is now Trolley](https://www.trolley.com/payment-rails-is-now-trolley-series-a), we'll be updating our SDKs to support the new domain during the first half of 2022.
+[^1]: [Payment Rails is now Trolley](https://www.trolley.com/payment-rails-is-now-trolley-series-a). We're in the process of updating our SDKs to support the new domain. In this transition phase, you might still see "PaymentRails" at some places.
 
 ## Installation
 
@@ -20,6 +20,17 @@ A native Python SDK for the Payment Rails API
 
 * Python
 * [requests](http://docs.python-requests.org/en/latest/)
+* [Mock](https://pypi.org/project/mock/) - For unit tests
+
+## Running Tests
+
+```
+// unit tests
+$ python -m unittest test/unit/testBalances.py
+
+//integration tests
+$ python test/integration/RecipientTest.py
+```
 
 ## Getting Started
 
@@ -37,14 +48,14 @@ print(response.id)
 
 ## Documentation for API Endpoints
 
-All URIs are available at http://docs.paymentrails.com/
+All URIs are available at https://docs.trolley.com/
  
-All URIs are relative to *https://api.paymentrails.com/v1*
+All URIs are relative to *https://api.trolley.com/v1*
 
 
 ### Usage
 
-Methods should all have Python Doc comments to help you understand their usage. As mentioned the [full API documentation](http://docs.paymentrails.com)
+Methods should all have Python Doc comments to help you understand their usage. As mentioned the [full API documentation](https://docs.trolley.com)
 is the best source of information about the API.
 
 For more information please read the [Python API docs](https://github.com/PaymentRails/python-sdk/tree/master/docs/) is available. The best starting point is:

@@ -15,7 +15,7 @@ class RecipientTest(unittest.TestCase):
     client = None
 
     def setUp(self):
-        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIROMENT")
+        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIRONMENT")
     
     def test_lifecycle(self):
         uuidString = str(uuid.uuid4())
@@ -66,6 +66,29 @@ class RecipientTest(unittest.TestCase):
         response = self.client.recipient_account.find(
             recipient_id, account_id1)
         self.assertTrue(response.id, account_id1)
+
+    def test_routeMinimum(self):
+        uuidString = str(uuid.uuid4())
+        payload = {"type": "individual", "firstName": "Tom", "lastName": "Jones",
+                   "email": "test.create" + uuidString + "@example.com",
+                   "address": {
+                        "street1": '123 Wolfstrasse',
+                        "city": 'Berlin',
+                        "country": 'DE',
+                        "postalCode": '123123'
+                    },
+                   "account": {
+                        "type": "bank-transfer", "currency": "EUR",
+                        "iban": "DE89 3704 0044 0532 0130 00", "country": "DE"}
+                        }
+        response = self.client.recipient.create(payload)
+        recipient_id = response.id
+        
+        self.assertTrue(response.routeType == "sepa")
+        self.assertTrue(response.routeMinimum == "3")
+
+        response = self.client.recipient.delete(recipient_id)
+        self.assertTrue(response)
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ import paymentrails.configuration
 
 class BatchGateway(object):
     """
-    PaymentRails Batch processor
+    Trolley Batch processor
     Creates and manages batches
     """
 

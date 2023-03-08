@@ -1,4 +1,4 @@
-[Payment Rails Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [NotFound](../classes/exceptions.notfound.md)
+[Trolley Python SDK](../README.md) > [Exceptions](../modules/exceptions.md) > [NotFound](../classes/exceptions.notfound.md)
 
 
 

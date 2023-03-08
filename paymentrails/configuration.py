@@ -65,7 +65,7 @@ class Configuration(object):
         Set method to change the enviroment
         """
         if enviroment == 'production':
-            return 'https://api.paymentrails.com'
+            return 'https://api.trolley.com'
         elif enviroment == 'development':
             return  'http://api.railz.io'
         elif enviroment == 'integration':

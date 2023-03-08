@@ -10,7 +10,7 @@ class UrlUtils:
     @staticmethod
     def __to_came_case(string):
         """
-        Converts the given string from snake_case (Python PEP) to lowerCamelCase (Payment Rails API)
+        Converts the given string from snake_case (Python PEP) to lowerCamelCase (Trolley API)
         See: https://stackoverflow.com/a/19053800/6626193
 
         :param string: the given snake_case string
@@ -44,7 +44,7 @@ class UrlUtils:
             if attributes[key] is None:
                 continue
 
-            # Convert the valid parameter to a Payment Rails API compatible one
+            # Convert the valid parameter to a Trolley API compatible one
             param = UrlUtils.__to_came_case(key) + "=" + urllib.parse.quote(str(attributes[key]))
             # And add it to the list
             params.append(param)

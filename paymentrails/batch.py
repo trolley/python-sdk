@@ -4,7 +4,7 @@ from paymentrails.gateway import Gateway
 class Batch:
     """
     A class that facilitates Client requests to
-    the PaymentRails API in regards to Batches.
+    the Trolley API in regards to Batches.
     """
 
     _attributes = {

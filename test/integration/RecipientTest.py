@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath('.'))
 from paymentrails.configuration import Configuration
 from paymentrails.recipient import Recipient
 from paymentrails.recipient_account import RecipientAccount
+from TestSetup import TestSetup
 
 
 class RecipientTest(unittest.TestCase):
@@ -15,7 +16,7 @@ class RecipientTest(unittest.TestCase):
     client = None
 
     def setUp(self):
-        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIRONMENT")
+        self.client = TestSetup.getClient()
     
     def test_lifecycle(self):
         uuidString = str(uuid.uuid4())

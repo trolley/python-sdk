@@ -10,6 +10,7 @@ from paymentrails.recipient import Recipient
 from paymentrails.recipient_account import RecipientAccount
 from paymentrails.batch import Batch
 from paymentrails.payment import Payment
+from TestSetup import TestSetup
 
 
 class BatchTest(unittest.TestCase):
@@ -17,7 +18,7 @@ class BatchTest(unittest.TestCase):
     client = None
 
     def setUp(self):
-        self.client = Configuration.gateway("YOUR-API-KEY", "YOUR-API-SECRET", "YOUR-ENVIRONMENT")
+        self.client = TestSetup.getClient()
 
     def test_processing(self):
         uuidString = str(uuid.uuid4())

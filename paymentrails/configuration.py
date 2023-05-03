@@ -1,6 +1,7 @@
 
 from paymentrails.client import Client
 from paymentrails.gateway import Gateway
+from dotenv import dotenv_values
 
 class Configuration(object):
     """
@@ -17,7 +18,7 @@ class Configuration(object):
         self.enviroment = Configuration.set_enviroment(enviroment)
 
     @staticmethod
-    def gateway(public_key, private_key, enviroment):
+    def gateway(public_key, private_key, enviroment = 'production'):
         return Gateway(Configuration(public_key, private_key, enviroment))
 
     @staticmethod
@@ -64,11 +65,13 @@ class Configuration(object):
         """
         Set method to change the enviroment
         """
-        if enviroment == 'production':
-            return 'https://api.trolley.com'
-        elif enviroment == 'development':
-            return  'http://api.railz.io'
-        elif enviroment == 'integration':
-           return  'http://api.local.dev:3000'
-        return enviroment
+        if enviroment == 'development':
+            env_values = dotenv_values(".env")
+
+            if len(env_values['SERVER_URL']) == 0:
+                raise Exception("Environment selected is 'development' but SERVER_URL is empty in .env")
+            else:
+                return  env_values['SERVER_URL']
+        
+        return 'https://api.trolley.com'
     

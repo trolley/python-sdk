@@ -7,3 +7,5 @@ paymentrails/exception/__pycache__
 *.egg-info
 .idea/
 venv-*/
+dist/
+target/

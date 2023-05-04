@@ -1,9 +1,9 @@
-from paymentrails.recipient_gateway import RecipientGateway
-from paymentrails.balances_gateway import BalancesGateway
-from paymentrails.batch_gateway import BatchGateway
-from paymentrails.payment_gateway import PaymentGateway
-from paymentrails.recipient_account_gateway import RecipientAccountGateway
-import paymentrails.configuration
+from trolley.recipient_gateway import RecipientGateway
+from trolley.balances_gateway import BalancesGateway
+from trolley.batch_gateway import BatchGateway
+from trolley.payment_gateway import PaymentGateway
+from trolley.recipient_account_gateway import RecipientAccountGateway
+import trolley.configuration
 
 
 class Gateway(object):
@@ -12,10 +12,10 @@ class Gateway(object):
     """
 
     def __init__(self, config=None, **kwargs):
-        if isinstance(config, paymentrails.configuration.Configuration):
+        if isinstance(config, trolley.configuration.Configuration):
             self.config = config
         else:
-            self.config = paymentrails.configuration.Configuration(
+            self.config = trolley.configuration.Configuration(
                 public_key=kwargs.get("public_key"),
                 private_key=kwargs.get("private_key")
             )

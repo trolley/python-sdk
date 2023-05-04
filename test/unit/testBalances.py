@@ -4,13 +4,13 @@ import unittest
 
 sys.path.append(os.path.abspath('.'))
 
-import paymentrails.configuration
-import paymentrails.balances
+import trolley.configuration
+import trolley.balances
 from mock import MagicMock, Mock, patch
 
 
-import paymentrails.exceptions.notFoundException
-import paymentrails.exceptions.invalidFieldException
+import trolley.exceptions.notFoundException
+import trolley.exceptions.invalidFieldException
 
 
 def fake_find():
@@ -30,11 +30,11 @@ class TestBalances(unittest.TestCase):
     private_key = ("privatekey")
 
     def test_retrieve_payoutMethod(self):
-        paymentrails.configuration.Configuration.set_public_key(
+        trolley.configuration.Configuration.set_public_key(
             TestBalances.public_key)
-        paymentrails.configuration.Configuration.set_private_key(
+        trolley.configuration.Configuration.set_private_key(
             TestBalances.private_key)
-        response = paymentrails.balances.Balances.find()
+        response = trolley.balances.Balances.find()
         status = {"ok": "true", "balances": {"USD": {"primary": "true", "amount": "10000.00",
                                                      "currency": "USD", "type": "paymentrails", "accountNumber": "null"}}}
         self.assertEqual(response, status)

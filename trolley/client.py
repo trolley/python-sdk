@@ -5,17 +5,17 @@ import hashlib
 import json
 import requests
 
-from paymentrails.exceptions.invalidFieldException import InvalidFieldException
-from paymentrails.exceptions.unexpectedException import UnexpectedException
-from paymentrails.exceptions.notFoundException import NotFoundException
-from paymentrails.exceptions.authenticationException import AuthenticationException
-from paymentrails.exceptions.authorizationException import AuthorizationException
-from paymentrails.exceptions.invalidFieldException import InvalidFieldException
-from paymentrails.exceptions.tooManyRequestsException import TooManyRequestsException
-from paymentrails.exceptions.downForMaintenanceException import DownForMaintenanceException
-from paymentrails.exceptions.malformedException import MalformedException
-from paymentrails.exceptions.invalidStatusException import InvalidStatusException
-from paymentrails.exceptions.invalidServerConnectionException import InvalidServerConnectionException
+from trolley.exceptions.invalidFieldException import InvalidFieldException
+from trolley.exceptions.unexpectedException import UnexpectedException
+from trolley.exceptions.notFoundException import NotFoundException
+from trolley.exceptions.authenticationException import AuthenticationException
+from trolley.exceptions.authorizationException import AuthorizationException
+from trolley.exceptions.invalidFieldException import InvalidFieldException
+from trolley.exceptions.tooManyRequestsException import TooManyRequestsException
+from trolley.exceptions.downForMaintenanceException import DownForMaintenanceException
+from trolley.exceptions.malformedException import MalformedException
+from trolley.exceptions.invalidStatusException import InvalidStatusException
+from trolley.exceptions.invalidServerConnectionException import InvalidServerConnectionException
 
 
 class Client(object):
@@ -41,7 +41,7 @@ class Client(object):
             headers = {'Content-Type': 'application/json',
                        'Authorization': authorization,
                        'X-PR-Timestamp': str(timestamp),
-                       'Trolley-Source': 'python-sdk_0.2'
+                       'Trolley-Source': 'python-sdk_1.0.0'
                        }
             
             if method == "GET":

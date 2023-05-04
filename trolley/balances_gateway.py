@@ -1,6 +1,6 @@
 from collections import namedtuple
-from paymentrails.exceptions.invalidFieldException import InvalidFieldException
-import paymentrails.configuration
+from trolley.exceptions.invalidFieldException import InvalidFieldException
+import trolley.configuration
 
 
 class BalancesGateway(object):
@@ -17,8 +17,8 @@ class BalancesGateway(object):
         if term is None:
             raise InvalidFieldException("Term cannot be None")
         endpoint = '/v1/balances/' + term
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
-        oldbalance = paymentrails.balances.Balances.factory(response)
+        oldbalance = trolley.balances.Balances.factory(response)
         balance = namedtuple("Balances", oldbalance.keys())(*oldbalance.values())
         return balance

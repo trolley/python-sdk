@@ -1,5 +1,5 @@
-from paymentrails.configuration import Configuration
-from paymentrails.gateway import Gateway
+from trolley.configuration import Configuration
+from trolley.gateway import Gateway
 class Recipient:
     """
     A class that facilitates Client requests to

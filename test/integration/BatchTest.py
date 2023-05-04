@@ -5,11 +5,11 @@ import uuid
 
 sys.path.append(os.path.abspath('.'))
 
-from paymentrails.configuration import Configuration
-from paymentrails.recipient import Recipient
-from paymentrails.recipient_account import RecipientAccount
-from paymentrails.batch import Batch
-from paymentrails.payment import Payment
+from trolley.configuration import Configuration
+from trolley.recipient import Recipient
+from trolley.recipient_account import RecipientAccount
+from trolley.batch import Batch
+from trolley.payment import Payment
 from TestSetup import TestSetup
 
 

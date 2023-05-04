@@ -3,7 +3,7 @@ import os
 
 sys.path.append(os.path.abspath('.'))
 
-from paymentrails.configuration import Configuration
+from trolley.configuration import Configuration
 from dotenv import dotenv_values
 
 class TestSetup:

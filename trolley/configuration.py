@@ -1,6 +1,6 @@
 
-from paymentrails.client import Client
-from paymentrails.gateway import Gateway
+from trolley.client import Client
+from trolley.gateway import Gateway
 from dotenv import dotenv_values
 
 class Configuration(object):

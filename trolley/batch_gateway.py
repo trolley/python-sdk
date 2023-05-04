@@ -1,6 +1,6 @@
 from collections import namedtuple
-from paymentrails.exceptions.invalidFieldException import InvalidFieldException
-import paymentrails.configuration
+from trolley.exceptions.invalidFieldException import InvalidFieldException
+import trolley.configuration
 
 
 
@@ -18,9 +18,9 @@ class BatchGateway(object):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
         endpoint = '/v1/batches/' + batchid
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
-        tempbatch = paymentrails.batch.Batch.factory(response)
+        tempbatch = trolley.batch.Batch.factory(response)
         batch = namedtuple("Batch", tempbatch.keys())(*tempbatch.values())
         return batch
 
@@ -28,9 +28,9 @@ class BatchGateway(object):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
         endpoint = '/v1/batches/'
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
-        tempbatch = paymentrails.batch.Batch.factory(response)
+        tempbatch = trolley.batch.Batch.factory(response)
         batch = namedtuple("Batch", tempbatch.keys())(*tempbatch.values())
         return batch
 
@@ -40,7 +40,7 @@ class BatchGateway(object):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
         endpoint = '/v1/batches/' + batchid
-        paymentrails.configuration.Configuration.client(
+        trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
         return True
 
@@ -48,18 +48,18 @@ class BatchGateway(object):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
         endpoint = '/v1/batches/' + batchid
-        paymentrails.configuration.Configuration.client(
+        trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
         return True
     def search(self, page=1, pagenumber=10, term=""):
         endpoint = '/v1/batches?search=' + term + \
             '&page=' + str(page) + '&pageSize=' + str(pagenumber)
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
         batches = []
         count = 0
         for batch in response['batches']:
-            tempbatch = paymentrails.batch.Batch.factory(batch)
+            tempbatch = trolley.batch.Batch.factory(batch)
             newbatch = namedtuple("Batch", tempbatch.keys())(*tempbatch.values())
             batches.insert(count, newbatch)
             count = count + 1
@@ -69,9 +69,9 @@ class BatchGateway(object):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
         endpoint = '/v1/batches/' + batchid + '/summary'
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
-        tempbatchsummary = paymentrails.batch_summary.BatchSummary.factory(
+        tempbatchsummary = trolley.batch_summary.BatchSummary.factory(
             response)
         batchsummary = namedtuple("BatchSummary", tempbatchsummary.keys())(
             *tempbatchsummary.values())
@@ -81,9 +81,9 @@ class BatchGateway(object):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
         endpoint = '/v1/batches/' + batchid + '/generate-quote'
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, {})
-        tempbatch = paymentrails.batch.Batch.factory(response)
+        tempbatch = trolley.batch.Batch.factory(response)
         batch = namedtuple("Batch", tempbatch.keys())(*tempbatch.values())
         return batch
 
@@ -91,8 +91,8 @@ class BatchGateway(object):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
         endpoint = '/v1/batches/' + batchid + '/start-processing'
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, {})
-        tempbatch = paymentrails.batch.Batch.factory(response)
+        tempbatch = trolley.batch.Batch.factory(response)
         batch = namedtuple("Batch", tempbatch.keys())(*tempbatch.values())
         return batch

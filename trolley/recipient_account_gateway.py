@@ -1,6 +1,6 @@
 from collections import namedtuple
-from paymentrails.exceptions.invalidFieldException import InvalidFieldException
-import paymentrails.configuration
+from trolley.exceptions.invalidFieldException import InvalidFieldException
+import trolley.configuration
 
 
 class RecipientAccountGateway(object):
@@ -17,13 +17,13 @@ class RecipientAccountGateway(object):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/accounts/'
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
 
         recipientaccounts = []
         count = 0
         for recipientaccount in response['accounts']:
-            recipaccount = paymentrails.recipient_account.RecipientAccount.factory(
+            recipaccount = trolley.recipient_account.RecipientAccount.factory(
                 recipientaccount)
             newrecipientaccount = namedtuple(
                 "RecipientAccount", recipaccount.keys())(*recipaccount.values())
@@ -35,9 +35,9 @@ class RecipientAccountGateway(object):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
-        recipaccount = paymentrails.recipient_account.RecipientAccount.factory(
+        recipaccount = trolley.recipient_account.RecipientAccount.factory(
             response)
         recipientaccount = namedtuple(
             "RecipientAccount", recipaccount.keys())(*recipaccount.values())
@@ -47,9 +47,9 @@ class RecipientAccountGateway(object):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/accounts'
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
-        recipaccount = paymentrails.recipient_account.RecipientAccount.factory(
+        recipaccount = trolley.recipient_account.RecipientAccount.factory(
             response)
         recipientaccount = namedtuple(
             "RecipientAccount", recipaccount.keys())(*recipaccount.values())
@@ -59,9 +59,9 @@ class RecipientAccountGateway(object):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
-        response = paymentrails.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
-        recipaccount = paymentrails.recipient_account.RecipientAccount.factory(
+        recipaccount = trolley.recipient_account.RecipientAccount.factory(
             response)
         recipientaccount = namedtuple(
             "RecipientAccount", recipaccount.keys())(*recipaccount.values())
@@ -71,6 +71,6 @@ class RecipientAccountGateway(object):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
         endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
-        paymentrails.configuration.Configuration.client(
+        trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
         return True

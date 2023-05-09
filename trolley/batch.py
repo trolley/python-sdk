@@ -27,7 +27,7 @@ class Batch:
             A batch_id is required::
             Batch.find('B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.find(batch_id)
 
     @staticmethod
@@ -39,7 +39,7 @@ class Batch:
                 {"payments":[{"recipient":{"id":"R-SBAHDK3DK6M7SUEM"},
                 "sourceAmount":"65","memo":"","sourceCurrency":"CAD"}]})
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.create(body)
 
     @staticmethod
@@ -51,7 +51,7 @@ class Batch:
             "email":"jsmith@example.com"},"sourceAmount":65,"memo":"Salary",
             "sourceCurrency":"CAD"}]})
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.update(batch_id, body)
 
     @staticmethod
@@ -61,7 +61,7 @@ class Batch:
             A batch_id is required::
             Batch.delete('B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.delete(batch_id)
 
     @staticmethod
@@ -70,7 +70,7 @@ class Batch:
         Query for a batch
             Batch.search(1,10,'test')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.search(page, page_number, term)
 
     @staticmethod
@@ -80,7 +80,7 @@ class Batch:
             A batch_id is required::
             Batch.summary('B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.summary(batch_id)
 
     @staticmethod
@@ -90,7 +90,7 @@ class Batch:
             A batch_id is required::
             Batch.generate_quote('B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.generate_quote(batch_id)
 
     @staticmethod
@@ -100,7 +100,7 @@ class Batch:
             A batch_id is required::
             Batch.process_batch('B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).batch.process_batch(batch_id)
 
     @staticmethod

@@ -15,7 +15,7 @@ class Balances:
         Retrieve a balance
             Balances.find()
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).balances.find(term)
     @staticmethod
     def _initialize(attributes):

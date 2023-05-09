@@ -37,7 +37,7 @@ class RecipientAccount:
             A recipient_id is required::
             RecipientAccount.findAll('R-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient_account.findAll(recipient_id)
 
     @staticmethod
@@ -47,7 +47,7 @@ class RecipientAccount:
             A recipient_id and recipient_account_id are required::
             RecipientAccount.find('R-fjeracjmuflh','A-2DQMpN4jurTFn9gRxobx4C')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient_account.find(recipient_id, recipient_account_id)
        
     @staticmethod
@@ -57,7 +57,7 @@ class RecipientAccount:
             A recipient_id and body are required::
             RecipientAccount.create('R-4625iLug2GKqKZG2WzAf3e','payload')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient_account.create(recipient_id, body)
 
     @staticmethod
@@ -68,7 +68,7 @@ class RecipientAccount:
             RecipientAccount.update('R-fjeracjmuflh','A-2DQMpN4jurTFn9gRxobx4C',
             {"accountHolderName": "Acer Philips"})
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient_account.update(recipient_id,
                                                                 recipient_account_id, body)
 
@@ -79,7 +79,7 @@ class RecipientAccount:
             A recipient_id and recipient_account_id are required::
             RecipientAccount.delete('R-fjeracjmuflh','A-2DQMpN4jurTFn9gRxobx4C')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient_account.delete(recipient_id, recipient_account_id)
 
     @staticmethod

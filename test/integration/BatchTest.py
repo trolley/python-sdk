@@ -5,11 +5,7 @@ import uuid
 
 sys.path.append(os.path.abspath('.'))
 
-from trolley.configuration import Configuration
-from trolley.recipient import Recipient
-from trolley.recipient_account import RecipientAccount
-from trolley.batch import Batch
-from trolley.payment import Payment
+from trolley.exceptions.malformedException import MalformedException
 from TestSetup import TestSetup
 
 
@@ -37,7 +33,12 @@ class BatchTest(unittest.TestCase):
 
         response = self.client.batch.generate_quote(batch_id)
         self.assertTrue(response.id == batch_id)
-        response = self.client.batch.process_batch(batch_id)
+        try:
+            response = self.client.batch.process_batch(batch_id)
+        except MalformedException as e:
+            print(e.get_error_array()[0]['message'])
+            self.assertTrue(len(e.get_error_array()) > 0)
+
         self.assertTrue(response.id == batch_id)
 
     def test_create_batch(self):

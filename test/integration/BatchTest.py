@@ -16,6 +16,18 @@ class BatchTest(unittest.TestCase):
     def setUp(self):
         self.client = TestSetup.getClient()
 
+    def test_pagination(self):
+        batches = self.client.batch.list_all_batches()
+        value = next(batches)
+        self.assertIsNotNone(value)
+
+        batches = self.client.batch.search()
+        value = next(batches)
+        self.assertIsNotNone(value)
+
+        batches = self.client.batch.search_by_page("",2)
+        self.assertTrue(batches[len(batches) - 1].page == 2)
+
     def test_processing(self):
         uuidString = str(uuid.uuid4())
         payload = {"type": "individual", "firstName": "Tom",

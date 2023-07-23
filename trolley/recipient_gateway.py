@@ -1,7 +1,7 @@
 from collections import namedtuple
 from trolley.exceptions.invalidFieldException import InvalidFieldException
 import trolley.configuration
-from trolley.utils import UrlUtils
+from trolley.utils.url_utils import UrlUtils
 
 
 class RecipientGateway(object):

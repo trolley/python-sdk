@@ -18,6 +18,15 @@ class RecipientTest(unittest.TestCase):
     def setUp(self):
         self.client = TestSetup.getClient()
     
+    def test_search_and_pagination(self):
+        
+        recipients = self.client.recipient.search_by_page()
+        self.assertIsNotNone(recipients)
+
+        recipients = self.client.recipient.search()
+        value = next(recipients)
+        self.assertIsNotNone(value)
+
     def test_lifecycle(self):
         uuidString = str(uuid.uuid4())
         payload = {"type": "individual", "firstName": "Tom", "lastName": "Jones",

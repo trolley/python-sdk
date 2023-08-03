@@ -45,19 +45,19 @@ class Client(object):
                        }
             
             if method == "GET":
-                request = requests.get(self.config.enviroment + endpoint, headers=headers)
+                response = requests.get(self.config.enviroment + endpoint, headers=headers)
             elif method == "POST":
-                request = requests.post(self.config.enviroment + endpoint, headers=headers, json=body)
+                response = requests.post(self.config.enviroment + endpoint, headers=headers, json=body)
             elif method == "PATCH":
-                request = requests.patch(self.config.enviroment + endpoint, headers=headers, json=body)
+                response = requests.patch(self.config.enviroment + endpoint, headers=headers, json=body)
             elif method == "DELETE":
-                request = requests.delete(self.config.enviroment + endpoint, headers=headers)
+                response = requests.delete(self.config.enviroment + endpoint, headers=headers, json=body)
             else:
                 self.throw_status_code_exception(None, "Invalid Method")
-            if request.status_code != 200 and request.status_code != 204:
-                self.throw_status_code_exception(request.status_code, request.content.decode("utf-8"))
+            if response.status_code != 200 and response.status_code != 204:
+                self.throw_status_code_exception(response.status_code, response.content.decode("utf-8"))
 
-            data = json.loads(request.content.decode("utf-8"))
+            data = json.loads(response.content.decode("utf-8"))
             return data
 
         except requests.exceptions.RequestException:
@@ -81,11 +81,11 @@ class Client(object):
         """
         return self.sendRequest(endpoint,"PATCH",body)   
 
-    def delete(self, endpoint):
+    def delete(self, endpoint, body={}):
         """
         Makes an HTTP DELETE request to the API
         """
-        return self.sendRequest(endpoint,"DELETE")
+        return self.sendRequest(endpoint,"DELETE", body)
 
     def generate_authorization(self,timestamp, method, endpoint, config, body=''):
         """

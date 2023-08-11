@@ -1,7 +1,7 @@
 from collections import namedtuple
 from trolley.exceptions.invalidFieldException import InvalidFieldException
 import trolley.configuration
-from trolley.utils.meta import Meta
+from trolley.types.meta import Meta
 from trolley.utils.url_utils import UrlUtils
 
 
@@ -18,10 +18,10 @@ class RecipientGateway(object):
     def find(self, recipient_id, term=""):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id + '/' + term
+        endpoint = f'/v1/recipients/{recipient_id}/{term}'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
-        recip = trolley.recipient.Recipient.factory(response)
+        recip = trolley.Recipient.factory(response)
         recipient = namedtuple("Recipient", recip.keys())(*recip.values())
         count = 0
         for account in recipient.accounts:
@@ -36,7 +36,7 @@ class RecipientGateway(object):
         endpoint = '/v1/recipients/'
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
-        recip = trolley.recipient.Recipient.factory(response)
+        recip = trolley.Recipient.factory(response)
         recipient = namedtuple("Recipient", recip.keys())(*recip.values())
         return recipient
 
@@ -45,7 +45,7 @@ class RecipientGateway(object):
             raise InvalidFieldException("Recipient id cannot be None.")
         if body is None:
             raise InvalidFieldException("Body cannot be None")
-        endpoint = '/v1/recipients/' + recipient_id
+        endpoint = f'/v1/recipients/{recipient_id}'
         trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
         return True
@@ -53,10 +53,81 @@ class RecipientGateway(object):
     def delete(self, recipient_id):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id
+        endpoint = f'/v1/recipients/{recipient_id}'
         trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
         return True
+    
+    def delete_multiple(self, recipient_ids):
+        if recipient_ids is None:
+            raise InvalidFieldException("Recipient ids cannot be None.")
+        
+        endpoint = '/v1/recipients/'
+        trolley.configuration.Configuration.client(
+            self.config).delete(endpoint, recipient_ids)
+        return True
+
+    def retrieve_logs(self, recipient_id, page=1, pageSize=10):
+        if recipient_id is None:
+            raise InvalidFieldException("Recipient id cannot be None.")
+        
+        endpoint = f'/v1/recipients/{recipient_id}/logs?page={page}&pageSize={pageSize}'
+        response = trolley.configuration.Configuration.client(
+            self.config).get(endpoint)
+
+        logs = []
+        count = 0
+        for log in response['recipientLogs']:
+            temp = trolley.Log.factory(log)
+
+            logs.insert(count, namedtuple("Log", temp.keys())(*temp.values()))
+
+            count = count + 1
+        
+            tempmeta = Meta.factory(response['meta'])
+            logs.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
+
+        return logs
+    
+    def get_all_payments(self, recipient_id):
+        if recipient_id is None:
+            raise InvalidFieldException("Recipient id cannot be None.")
+        endpoint = f'/v1/recipients/{recipient_id}/payments'
+        response = trolley.configuration.Configuration.client(
+            self.config).get(endpoint)
+        
+        payments = []
+        count = 0
+        for payment in response['payments']:
+            temppayment = trolley.Payment.factory(payment)
+            newpayment = namedtuple("Payment", temppayment.keys())(*temppayment.values())
+            payments.insert(count, newpayment)
+            count = count + 1
+        
+            tempmeta = Meta.factory(response['meta'])
+            payments.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
+
+        return payments
+
+    def get_all_offline_payments(self, recipient_id):
+        if recipient_id is None:
+            raise InvalidFieldException("Recipient id cannot be None.")
+        endpoint = f'/v1/recipients/{recipient_id}/offlinePayments'
+        response = trolley.configuration.Configuration.client(
+            self.config).get(endpoint)
+        
+        offlinePayments = []
+        count = 0
+        for offlinePayment in response['offlinePayments']:
+            temppayment = trolley.Payment.factory(offlinePayment)
+            newpayment = namedtuple("Payment", temppayment.keys())(*temppayment.values())
+            offlinePayments.insert(count, newpayment)
+            count = count + 1
+        
+            tempmeta = Meta.factory(response['meta'])
+            offlinePayments.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
+
+        return offlinePayments
 
     """ Search Recipients with a search term.
         This method returns a generator which auto paginates.

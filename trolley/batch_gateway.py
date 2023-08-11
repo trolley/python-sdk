@@ -1,7 +1,7 @@
 from collections import namedtuple
 from trolley.exceptions.invalidFieldException import InvalidFieldException
 import trolley.configuration
-from trolley.utils.meta import Meta
+from trolley.types.meta import Meta
 
 
 

@@ -114,9 +114,11 @@ class BatchTest(unittest.TestCase):
         self.assertTrue(r)
 
     def test_payment(self):
+        # Setup - Create a recipient
         response = TestHelper.createRecipient()
         recipient_id = response.id
 
+        # Setup - Create batch
         payload = {
             "payments": [
                 {
@@ -130,10 +132,10 @@ class BatchTest(unittest.TestCase):
             ]
         }
 
-        # Create batch
         response = self.client.batch.create(payload)
         batch_id = response.id
 
+        # Test - Create payment
         payload = {
             "recipient":{
                 "id": recipient_id
@@ -142,11 +144,15 @@ class BatchTest(unittest.TestCase):
             "memo":"Freelance payment"
         }
 
-        # Create payment
         response = self.client.payment.create(payload, batch_id)
-        # print("Payment------------")
-        # print(response)
         self.assertTrue(response.sourceAmount == '70.07')
+
+        # Test - Update the payment
+        payload = {
+            "sourceAmount":"200.10",
+        }
+        response = self.client.payment.update(response.id, payload, batch_id)
+        self.assertTrue(response.sourceAmount == '140.07')
 
         # Cleanup
         r = self.client.recipient.delete(recipient_id)

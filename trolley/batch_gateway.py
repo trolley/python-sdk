@@ -53,6 +53,14 @@ class BatchGateway(object):
             self.config).delete(endpoint)
         return True
     
+    def delete_multiple(self, batchids):
+        if batchids is None:
+            raise InvalidFieldException("Batch IDs cannot be None.")
+        endpoint = '/v1/batches/'
+        trolley.configuration.Configuration.client(
+            self.config).delete(endpoint, batchids)
+        return True
+    
     """ Lists all payments under a batch.
      This is basically an alias to the search() method. """
     def list_all_batches(self):

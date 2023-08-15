@@ -101,13 +101,32 @@ class BatchTest(unittest.TestCase):
         recipient_id = response.id
 
         # Create Batch
-        payload = {"payments": [{"recipient": {
-            "id": recipient_id}, "sourceAmount": "65", "memo": "", "sourceCurrency": "EUR"}]}
+        payload = {
+            "payments": [
+                {
+                    "recipient": {
+                        "id": recipient_id
+                    }, 
+                    "sourceAmount": "65", 
+                    "memo": "", 
+                    "sourceCurrency": "EUR"
+                }
+            ]
+        }
         response = self.client.batch.create(payload)
         batch_id = response.id
 
         response = self.client.batch.delete(batch_id)
         self.assertTrue(response)
+
+        # Test - Delete Multiple
+        batch1 = self.client.batch.create(payload)
+        batch2 = self.client.batch.create(payload)
+        response = self.client.batch.delete_multiple({
+            "ids":[
+                batch1.id,
+                batch2.id
+        ]})
 
         # Cleanup
         r = self.client.recipient.delete(recipient_id)

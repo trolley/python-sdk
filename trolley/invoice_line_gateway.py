@@ -15,7 +15,7 @@ class InvoiceLineGateway(object):
 
     """ Creates a new InvoiceLine. Only provide the line item in the body, and provide invoiceId separately.  """
     def create(self, invoice_id, body,):
-        if body is invoice_id:
+        if invoice_id is None:
             raise InvalidFieldException("Invoice ID cannot be None.")
         if body is None:
             raise InvalidFieldException("Body cannot be None.")

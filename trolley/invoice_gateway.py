@@ -98,7 +98,7 @@ class InvoiceGateway(object):
     """ Delete an Invoice """
     def delete(self, invoice_ids):
         if invoice_ids is None:
-            raise InvalidFieldException("Body cannot be None.")
+            raise InvalidFieldException("Invoice ID cannot be None.")
         
         body = {
             "invoiceIds": invoice_ids

@@ -1,8 +1,10 @@
 import sys
 import os
+import time
 import unittest
 from pprint import pprint
 from TestHelper import TestHelper
+from trolley.types.invoice_line import InvoiceLine
 
 sys.path.append(os.path.abspath('.'))
 
@@ -28,15 +30,66 @@ class InvoiceTest(unittest.TestCase):
             })
         self.assertEqual(invoice.recipientId, recipient.id)
 
+        # Test - Add lines to Invoice
+        invoice_with_lines = self.client.invoice_line.create(invoice.id,[
+                {
+                    "unitAmount" :{
+                        "value" : "50.00",
+                        "currency" : "EUR"
+                    },
+                    "description" 	: "first line",
+                    "category"		: InvoiceLine.categories.education
+                },
+                {
+                    "unitAmount" :{
+                        "value" : "150.00",
+                        "currency" : "EUR"
+                    },
+                    "description" 	: "second line",
+                    "category"		: InvoiceLine.categories.prizes
+                }
+            ])
+        
+        self.assertEqual("150.00", invoice_with_lines.lines[1]['unitAmount']['value'])
+
+        # Test - Update lines to Invoice
+        invoice_with_lines = self.client.invoice_line.update(invoice.id,[
+                {
+                    "invoiceLineId"	: invoice_with_lines.lines[1]['id'],
+                    "unitAmount" :{
+                        "value" : "151.00",
+                        "currency" : "EUR"
+                    },
+                    "category"		: InvoiceLine.categories.refunds
+                }
+            ])
+        
+        self.assertEqual("151.00", invoice_with_lines.lines[1]['unitAmount']['value'])
+        self.assertEqual(
+            InvoiceLine.categories.refunds, 
+            invoice_with_lines.lines[1]['category'])
+
+        # Test - Delete an invoice line
+        del_result = self.client.invoice_line.delete(
+            invoice.id, 
+            [
+                invoice_with_lines.lines[1]['id']
+            ])
+        self.assertTrue(del_result)
+
         # Test - Update Invoice
+        ext_id = f"inv-id-{time.time()}"
         invoice = self.client.invoice.update(invoice.id, {
-                "externalId": "123"
+                "externalId": ext_id
             })
-        self.assertEqual(invoice.externalId, "123")
+        self.assertEqual(invoice.externalId, ext_id)
+
+        # Assert that the deleted line can't be found
+        self.assertEqual(len(invoice.lines), 1)
         
         # Test - Get an invoice by id
         fetched_invoice = self.client.invoice.get(invoice.id)
-        self.assertEqual(fetched_invoice.externalId, "123")
+        self.assertEqual(fetched_invoice.externalId, ext_id)
 
         # Test - Delete an Invoice
         response = self.client.invoice.delete([

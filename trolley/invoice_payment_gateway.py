@@ -13,71 +13,76 @@ class InvoicePaymentGateway(object):
         self.gateway = gateway
         self.config = config
 
-    # """ Creates a new InvoiceLine. Only provide the line item in the body, and provide invoiceId separately.  """
-    # def create(self, invoice_id, body,):
-    #     if body is invoice_id:
-    #         raise InvalidFieldException("Invoice ID cannot be None.")
-    #     if body is None:
-    #         raise InvalidFieldException("Body cannot be None.")
-    #     if not isinstance(body, list):
-    #         raise InvalidFieldException("Body must be of type list")
-
-    #     if "invoiceId" in body:
-    #         del body['invoiceId']
+    """ Creates a new Invoice Payment.  """
+    def create(self, body):
+        if body is None:
+            raise InvalidFieldException("Body cannot be None.")
+        if not isinstance(body, list):
+            raise InvalidFieldException("Body must be of type list")
         
-    #     payload = {
-    #         'invoiceId' : invoice_id,
-    #         'lines' : body
-    #     }
+        payload = {
+            'ids' : body
+        }
 
-    #     endpoint = f'/v1/invoices/create-lines/'
-    #     response = trolley.Configuration.client(
-    #         self.config).post(endpoint, payload)
+        endpoint = f'/v1/invoices/payment/create'
+        response = trolley.Configuration.client(
+            self.config).post(endpoint, payload)
 
-    #     temp_invoice = trolley.Invoice.factory(response)
-    #     invoice = namedtuple("Invoice", temp_invoice.keys())(*temp_invoice.values())
-    #     return invoice
+        temp_invoice_payment = trolley.InvoicePayment.factory(response)
+        invoice = namedtuple("InvoicePayment", temp_invoice_payment.keys())(*temp_invoice_payment.values())
+        return invoice
 
-    # """ Update an Invoice Line. """
-    # def update(self, invoice_id, body):
-    #     if invoice_id is None:
-    #         raise InvalidFieldException("Invoice ID cannot be None.")
-    #     if body is None:
-    #         raise InvalidFieldException("Body cannot be None.")
-    #     if not isinstance(body, list):
-    #         raise InvalidFieldException("Body must be of type list")
+    """ Update an Invoice Payment. """
+    def update(self, body):
+        if body is None:
+            raise InvalidFieldException("Body cannot be None.")
+
+        endpoint = f'/v1/invoices/payment/update'
+        response = trolley.Configuration.client(
+            self.config).post(endpoint, body)
+
+        return response['ok']
+
+    """ Remove the association between a payment and an invoice.
+    Provide a list of str in invoice_line_ids """
+    def delete(self, payment_id, invoice_line_ids):
+        if payment_id is None:
+            raise InvalidFieldException("Payment ID cannot be None.")
+        if invoice_line_ids is None:
+            raise InvalidFieldException("Invoice Line IDs cannot be None.")
+        if not isinstance(invoice_line_ids, list):
+            raise InvalidFieldException("Invoice Line IDs must be of type list.")
         
-    #     if "invoiceId" in body:
-    #         del body['invoiceId']
+        payload = {
+            'paymentId' : payment_id,
+            'invoiceLineIds' : invoice_line_ids
+        }
+
+        endpoint = f'/v1/invoices/payment/delete'
+        response = trolley.Configuration.client(
+            self.config).post(endpoint, payload)
+
+        return response['ok']
+    
+    """ Search for Invoice Payments. Provide a list of str of payment or invoice IDs in the argument ids """
+    def search(self, invoice_payment_ids):
+        if invoice_payment_ids is None:
+            raise InvalidFieldException("Invoice Payment IDs cannot be None.")
+        if not isinstance(invoice_payment_ids, list):
+            raise InvalidFieldException("Invoice Payment IDs has to be of type list.")
         
-    #     payload = {
-    #         'invoiceId' : invoice_id,
-    #         'lines' : body
-    #     }
+        payload = {
+            'paymentIds' : invoice_payment_ids
+        }
 
-    #     endpoint = f'/v1/invoices/update-lines'
-    #     response = trolley.Configuration.client(
-    #         self.config).post(endpoint, payload)
-    #     temp_invoice = trolley.Invoice.factory(response)
-    #     invoice = namedtuple("Invoice", temp_invoice.keys())(*temp_invoice.values())
-    #     return invoice
-
-    # """ Delete Invoice Lines. Provide a list of str in invoice_line_ids """
-    # def delete(self, invoice_id, invoice_line_ids):
-    #     if invoice_id is None:
-    #         raise InvalidFieldException("Invoice ID cannot be None.")
-    #     if invoice_line_ids is None:
-    #         raise InvalidFieldException("Invoice Line IDs cannot be None.")
-    #     if not isinstance(invoice_line_ids, list):
-    #         raise InvalidFieldException("Invoice Line IDs cannot be None.")
+        endpoint = f'/v1/invoices/payment/search'
+        response = trolley.Configuration.client(
+            self.config).post(endpoint, payload)
         
-    #     payload = {
-    #         'invoiceId' : invoice_id,
-    #         'invoiceLineIds' : invoice_line_ids
-    #     }
-
-    #     endpoint = f'/v1/invoices/delete-lines'
-    #     response = trolley.Configuration.client(
-    #         self.config).post(endpoint, payload)
-
-    #     return response['ok']
+        invoice_payments = []
+                    
+        for part in response['invoicePayments']:
+            temp_part = trolley.InvoicePaymentPart.factory(part)
+            invoice_payments.append(namedtuple("InvoicePaymentPart", temp_part.keys())(*temp_part.values()))
+        
+        return invoice_payments

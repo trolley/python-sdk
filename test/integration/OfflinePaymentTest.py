@@ -57,6 +57,11 @@ class OfflinePaymentTest(unittest.TestCase):
         response = self.client.offline_payment.delete(recipient_id, offline_payment.id)
         self.assertTrue(response)
 
+        # Assert that the deleted offline payment is not found anymore
+        all_offline_payments = self.client.offline_payment.get_all()
+        for op in all_offline_payments:
+            self.assertNotEqual(op.id, offline_payment.id)
+        
         # Cleanup
         response = self.client.recipient.delete(recipient_id)
         self.assertTrue(response)

@@ -4,25 +4,49 @@ from trolley.gateway import Gateway
 class Balances:
     """
     A class that facilitates Client requests to
-    the PaymentRails API in regards to Balances.
+    the Trolley API in regards to Balances.
     """
-    _attributes = {}
-
-
-    @staticmethod
-    def find(term=""):
-        """
-        Retrieve a balance
-            Balances.find()
-        """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
-        return Gateway(config).balances.find(term)
+    _attributes = {
+        'accountNumber': "",
+        'amount': "",
+        'amountCleared': "",
+        'amountPending': "",
+        'currency': "",
+        'display': "",
+        'pendingCredit': "",
+        'pendingDebit': "",
+        'primary': "",
+        'provider': "",
+        'providerAcct': "",
+        'providerId': "",
+        'type': ""
+    }
+    
     @staticmethod
     def _initialize(attributes):
         """Initialize fields and return a dict of attributes."""
-        for field in attributes.get('balances'):
-            Balances._attributes.update({field:""})
-            Balances._attributes[field] = attributes['balances'].get(field)
+
+        fields = [
+            'accountNumber',
+            'amount',
+            'amountCleared',
+            'amountPending',
+            'currency',
+            'display',
+            'pendingCredit',
+            'pendingDebit',
+            'primary',
+            'provider',
+            'providerAcct',
+            'providerId',
+            'type'
+        ]
+
+        for field in fields:
+            if attributes.get('balances') is None:
+                Balances._attributes[field] = attributes.get(field)
+            elif attributes['balances'].get(field) is not None:
+                Balances._attributes[field] = attributes['balances'][field]
 
         return Balances._attributes
 

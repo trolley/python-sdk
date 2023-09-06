@@ -37,7 +37,7 @@ class UrlUtils:
         # Iterate over attribute keys
         for key in attributes.keys():
             # Note that locals() also returns the "self" attribute, so just ignore it
-            if key == "self":
+            if key == "self" or key == "should_paginate" or key == "endpoint":
                 continue
 
             # Ignore None attributes as well

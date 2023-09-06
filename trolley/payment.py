@@ -9,25 +9,50 @@ class Payment:
 
     _attributes = {
         'id': "",
+        'recipient': "",
         'status': "",
-        'isSupplyPayment': "",
         'returnedAmount': "",
         'sourceAmount': "",
         'sourceCurrency': "",
+        'sourceCurrencyName': "",
         'targetAmount': "",
         'targetCurrency': "",
+        'targetCurrencyName': "",
+        'batch': "",
+        'category': "",
+        'coverFees': "",
+        'currency': "",
+        'equivalentWithholdingAmount': "",
+        'equivalentWithholdingCurrency': "",
+        'estimatedDeliveryAt': "",
         'exchangeRate': "",
         'fees': "",
         'recipientFees': "",
         'fxRate': "",
         'memo': "",
         'externalId': "",
+        'failureMessage': "",
+        'initiatedAt': "",
+        'isSupplyPayment': "",
+        'merchantId': "",
+        'methodDisplay': "",
         'processedAt': "",
         'createdAt': "",
         'updatedAt': "",
         'merchantFees': "",
         'compliance': "",
         'payoutMethod': "",
+        'returnedAt': "",
+        'returnedNote': "",
+        'returnedReason': "",
+        'settledAt': "",
+        'tags': "",
+        'checkNumber': "",
+        'taxBasisAmount': "",
+        'taxBasisCurrency': "",
+        'taxReportable': "",
+        'withholdingAmount': "",
+        'withholdingCurrency': ""
     }
 
     @staticmethod
@@ -37,7 +62,7 @@ class Payment:
             A payment_id and batch_id are required::
             Payment.find('P-dejrtewdsj',B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).payment.find(payment_id, batch_id)
 
     @staticmethod
@@ -49,7 +74,7 @@ class Payment:
                {"recipient":{"id":"R-91XNJBKM30F06"},"sourceAmount":"100.10",
                "memo":"Freelance payment"}
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).payment.create(body, batch_id)
 
     @staticmethod
@@ -59,7 +84,7 @@ class Payment:
             A payment_id, batch_id, and body are required::
             Payment.update('B-fjeracjmuflh',{"sourceAmount":"900.90"},'P-jddfjwojd')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).payment.update(payment_id, body, batch_id)
 
     @staticmethod
@@ -69,7 +94,7 @@ class Payment:
             A payment_id and batch_id are required::
             Payment.delete('P-dejrtewdsj',B-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).payment.delete(payment_id, batch_id)
 
     @staticmethod
@@ -78,7 +103,7 @@ class Payment:
         Query for a payment
             Payment.search(1,10,'test')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).payment.search(page, page_number, term)
 
     @staticmethod
@@ -87,25 +112,50 @@ class Payment:
 
         fields = [
             'id',
+            'recipient',
             'status',
-            'isSupplyPayment',
             'returnedAmount',
             'sourceAmount',
             'sourceCurrency',
+            'sourceCurrencyName',
             'targetAmount',
             'targetCurrency',
+            'targetCurrencyName',
+            'batch',
+            'category',
+            'coverFees',
+            'currency',
+            'equivalentWithholdingAmount',
+            'equivalentWithholdingCurrency',
+            'estimatedDeliveryAt',
             'exchangeRate',
             'fees',
             'recipientFees',
             'fxRate',
             'memo',
             'externalId',
+            'failureMessage',
+            'initiatedAt',
+            'isSupplyPayment',
+            'merchantId',
+            'methodDisplay',
             'processedAt',
             'createdAt',
             'updatedAt',
             'merchantFees',
             'compliance',
             'payoutMethod',
+            'returnedAt',
+            'returnedNote',
+            'returnedReason',
+            'settledAt',
+            'tags',
+            'checkNumber',
+            'taxBasisAmount',
+            'taxBasisCurrency',
+            'taxReportable',
+            'withholdingAmount',
+            'withholdingCurrency'
         ]
 
         for field in fields:

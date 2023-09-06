@@ -153,8 +153,6 @@ class RecipientGateway(object):
                 should_paginate = True
             else:
                 should_paginate = False
-        
-        return self.__build_recipients_from_response(response)
     
     """ Search Recipients by providing a page number.
         This method returns a list.

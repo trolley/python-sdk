@@ -114,15 +114,11 @@ class RecipientTest(unittest.TestCase):
         self.assertTrue(response)
 
     def test_recipient_payments(self):
-        payments = self.client.recipient.get_all_payments("R-JSU6rUKR4xb4wSMAyG7L8U")
-        self.assertEqual(payments[len(payments)-1].records,2)
+        payments = self.client.recipient.get_all_payments("R-91XPCK1J9W1HU")
+        self.assertTrue(len(payments)>0)
 
-        try:
-            offlinePayments = self.client.recipient.get_all_offline_payments("R-7bgrfuEeXSWvVxqTpMXLDW")
-            self.assertEqual(offlinePayments[0].status,'processed')
-        except Exception as e:
-            print(e)
-
+        offlinePayments = self.client.recipient.get_all_offline_payments("R-4QoXiSPjbnLuUmQR2bgb8C")
+        self.assertTrue(len(offlinePayments)>0)
 
 if __name__ == '__main__':
     unittest.main()

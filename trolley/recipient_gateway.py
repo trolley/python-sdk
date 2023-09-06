@@ -104,8 +104,8 @@ class RecipientGateway(object):
             payments.insert(count, newpayment)
             count = count + 1
         
-            tempmeta = Meta.factory(response['meta'])
-            payments.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
+        tempmeta = Meta.factory(response['meta'])
+        payments.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
 
         return payments
 
@@ -124,8 +124,8 @@ class RecipientGateway(object):
             offlinePayments.insert(count, newpayment)
             count = count + 1
         
-            tempmeta = Meta.factory(response['meta'])
-            offlinePayments.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
+        tempmeta = Meta.factory(response['meta'])
+        offlinePayments.insert(count,namedtuple("Meta", tempmeta.keys())(*tempmeta.values()))
 
         return offlinePayments
 

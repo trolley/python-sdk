@@ -41,6 +41,6 @@ class TestHelper:
         client = TestSetup.getClient()
         if payload is None:
             payload = {"type": "bank-transfer", "currency": "EUR",
-                   "iban": "DE89 3704 0044 0532 0130 10", "country": "DE"}
+                   "iban": "DE89370400440532013000", "country": "DE"}
         response = client.recipient_account.create(recipient_id, payload)
         return response

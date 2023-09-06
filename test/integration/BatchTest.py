@@ -1,12 +1,13 @@
 import sys
 import os
 import unittest
-from TestHelper import TestHelper
-
 sys.path.append(os.path.abspath('.'))
 
-from trolley.exceptions.malformedException import MalformedException
+from TestHelper import TestHelper
 from TestSetup import TestSetup
+
+from trolley.exceptions.notFoundException import NotFoundException
+from trolley.exceptions.malformedException import MalformedException
 
 
 class BatchTest(unittest.TestCase):
@@ -57,8 +58,7 @@ class BatchTest(unittest.TestCase):
             
             response = self.client.batch.process_batch(batch_id)
         except MalformedException as e:
-            print(e.get_error_array()[0]['message'])
-            self.assertTrue(len(e.get_error_array()) > 0)
+            self.assertEqual(e.get_error_array()[0]['message'],'Unable to generate quote')
 
         self.assertTrue(response.id == batch_id)
 
@@ -128,6 +128,12 @@ class BatchTest(unittest.TestCase):
                 batch2.id
         ]})
 
+        # Assert that one of the deleted batch is not found anymore
+        try:
+            find_batch = self.client.batch.find(batch1.id)
+        except NotFoundException as e:
+            self.assertEqual(e.get_error_array()[0]['code'],'not_found')
+
         # Cleanup
         r = self.client.recipient.delete(recipient_id)
         self.assertTrue(r)
@@ -164,14 +170,14 @@ class BatchTest(unittest.TestCase):
         }
 
         response = self.client.payment.create(payload, batch_id)
-        self.assertTrue(response.sourceAmount == '70.07')
+        self.assertTrue(response.sourceAmount == '100.10')
 
         # Test - Update the payment
         payload = {
             "sourceAmount":"200.10",
         }
         response = self.client.payment.update(response.id, payload, batch_id)
-        self.assertTrue(response.sourceAmount == '140.07')
+        self.assertTrue(response.sourceAmount == '200.10')
 
         # Cleanup
         r = self.client.recipient.delete(recipient_id)

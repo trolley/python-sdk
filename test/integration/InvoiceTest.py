@@ -1,10 +1,16 @@
 import sys
 import os
 import time
-from trolley.exceptions.notFoundException import NotFoundException
-from trolley.types.invoice_line import InvoiceLine
 import unittest
+
+sys.path.append(os.path.abspath('.'))
+
 from TestHelper import TestHelper
+from TestSetup import TestSetup
+
+from trolley.types.invoice_line import InvoiceLine
+from trolley.exceptions.malformedException import MalformedException
+from trolley.exceptions.notFoundException import NotFoundException
 
 sys.path.append(os.path.abspath('.'))
 

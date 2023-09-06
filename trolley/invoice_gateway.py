@@ -13,7 +13,7 @@ class InvoiceGateway(object):
         self.gateway = gateway
         self.config = config
 
-    """ Creates a new Invoice """
+    """ Create a new Invoice """
     def create(self, body,):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
@@ -39,7 +39,7 @@ class InvoiceGateway(object):
         invoice = namedtuple("Invoice", temp_invoice.keys())(*temp_invoice.values())
         return invoice
 
-    """ This method fetches details of an invoice whose ID is provided."""
+    """ Get details of an invoice whose ID is provided."""
     def get(self, invoice_id):
         if invoice_id is None:
             raise InvalidFieldException("Invoice ID cannot be None.")

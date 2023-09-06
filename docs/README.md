@@ -36,15 +36,14 @@
 Create a client for the Trolley Python API
 
 
-	client = Configuration.gateway("YOUR-PUBLIC-API","YOUR-PRIVATE-API","production")
+	client = Configuration.gateway("ACCESS_KEY","SECRET_KEY")
 
 **Parameters:**
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| publicKey | [String]   |  The public key |
-| secretKey | [String]   |  The secret key |
-| enviroment | [String]   |  The enviroment that should be used |
+| ACCESS_KEY | [String]   |  The public key |
+| SECRET_KEY | [String]   |  The secret key |
 
 
 

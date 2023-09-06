@@ -11,3 +11,5 @@ from trolley.types.offline_payment import OfflinePayment
 from trolley.balances import Balances
 from trolley.types.invoice import Invoice
 from trolley.types.invoice_line import InvoiceLine
+from trolley.types.invoice_payment import InvoicePayment
+from trolley.types.invoice_payment_part import InvoicePaymentPart

@@ -44,7 +44,7 @@ class Recipient:
             A recipient_id is required::
             Recipient.find('R-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient.find(recipient_id, term)
     @staticmethod
     def create(body):
@@ -54,7 +54,7 @@ class Recipient:
             Recipient.create({"type": "individual", "firstName": "John",
                                     "lastName": "Smith", "email": "jh@edxample.com"})
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient.create(body)
 
     @staticmethod
@@ -64,7 +64,7 @@ class Recipient:
             A recipient_id and body are required::
             Recipient.update({'firstName': 'tom'})
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient.update(recipient_id, body)
 
     @staticmethod
@@ -74,7 +74,7 @@ class Recipient:
             A recipient_id is required::
             Recipient.delete('R-fjeracjmuflh')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient.delete(recipient_id)
 
     @staticmethod
@@ -83,7 +83,7 @@ class Recipient:
         Query for a recipient
             Recipient.search(1,10,'test')
         """
-        config = Configuration(Configuration.public_key, Configuration.private_key, Configuration.enviroment)
+        config = Configuration(Configuration.public_key, Configuration.private_key)
         return Gateway(config).recipient.search(page, page_number, term)
 
     @staticmethod

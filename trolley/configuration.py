@@ -12,7 +12,7 @@ class Configuration(object):
     private_key = ''
     enviroment = ''
 
-    def __init__(self, public_key="", private_key="", enviroment=""):
+    def __init__(self, public_key="", private_key="", enviroment="production"):
         self.public_key = public_key
         self.private_key = private_key
         self.enviroment = Configuration.set_enviroment(enviroment)

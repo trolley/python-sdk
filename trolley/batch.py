@@ -16,8 +16,11 @@ class Batch:
         "description": "",
         "sentAt": "",
         "status": "",
+        "tags": "",
         "totalPayments": "",
         "updatedAt": "",
+        "quoteExpiredAt": "",
+        "payments": "",
     }
 
     @staticmethod
@@ -115,8 +118,11 @@ class Batch:
             "description",
             "sentAt",
             "status",
+            "tags",
             "totalPayments",
             "updatedAt",
+            "quoteExpiredAt",
+            "payments",
         ]
 
         for field in fields:

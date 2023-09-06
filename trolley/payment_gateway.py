@@ -23,7 +23,7 @@ class PaymentGateway(object):
         endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
-        temppayment = trolley.payment.Payment.factory(response)
+        temppayment = trolley.Payment.factory(response)
         payment = namedtuple("Payment", temppayment.keys())(*temppayment.values())
         return payment
 
@@ -35,7 +35,7 @@ class PaymentGateway(object):
         endpoint = '/v1/batches/' + batch_id + '/payments/'
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
-        temppayment = trolley.payment.Payment.factory(response)
+        temppayment = trolley.Payment.factory(response)
         payment = namedtuple("Payment", temppayment.keys())(*temppayment.values())
         return payment
 
@@ -45,9 +45,11 @@ class PaymentGateway(object):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
         endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
-        trolley.configuration.Configuration.client(
+        response = trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
-        return True
+        temppayment = trolley.Payment.factory(response)
+        payment = namedtuple("Payment", temppayment.keys())(*temppayment.values())
+        return payment
 
     def delete(self, payment_id, batch_id):
         if payment_id is None:

@@ -1,7 +1,7 @@
 from collections import namedtuple
 from trolley.exceptions.invalidFieldException import InvalidFieldException
 import trolley.configuration
-from trolley.utils.meta import Meta
+from trolley.types.meta import Meta
 
 
 
@@ -51,6 +51,14 @@ class BatchGateway(object):
         endpoint = '/v1/batches/' + batchid
         trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
+        return True
+    
+    def delete_multiple(self, batchids):
+        if batchids is None:
+            raise InvalidFieldException("Batch IDs cannot be None.")
+        endpoint = '/v1/batches/'
+        trolley.configuration.Configuration.client(
+            self.config).delete(endpoint, batchids)
         return True
     
     """ Lists all payments under a batch.

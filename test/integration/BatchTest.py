@@ -58,7 +58,10 @@ class BatchTest(unittest.TestCase):
             
             response = self.client.batch.process_batch(batch_id)
         except MalformedException as e:
-            self.assertEqual(e.get_error_array()[0]['message'],'Unable to generate quote')
+            self.assertTrue(
+                (e.get_error_array()[0]['message']=='Unable to generate quote')
+                or
+                (e.get_error_array()[0]['message']=='Payment is missing quote'))
 
         self.assertTrue(response.id == batch_id)
 

@@ -1,6 +1,7 @@
 from collections import namedtuple
 from trolley.exceptions.invalidFieldException import InvalidFieldException
 import trolley.configuration
+from trolley.types.balances import Balances
 
 
 class BalancesGateway(object):
@@ -27,7 +28,7 @@ class BalancesGateway(object):
         
         balances = []
         for balance in response['balances']:
-            tempbalance = trolley.Balances.factory(balance)
+            tempbalance = Balances.factory(balance)
             balances.append(namedtuple("Balances", tempbalance.keys())(*tempbalance.values()))
 
         return balances

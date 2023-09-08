@@ -6,7 +6,7 @@ from trolley.recipient_account import RecipientAccount
 from trolley.types.log import Log
 from trolley.types.batch import Batch
 from trolley.types.batch_summary import BatchSummary
-from trolley.payment import Payment
+from trolley.types.payment import Payment
 from trolley.types.offline_payment import OfflinePayment
 from trolley.balances import Balances
 from trolley.types.invoice import Invoice

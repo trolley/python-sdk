@@ -1,5 +1,3 @@
-from trolley.configuration import Configuration
-from trolley.gateway import Gateway
 
 class Payment:
     """
@@ -54,57 +52,6 @@ class Payment:
         'withholdingAmount': "",
         'withholdingCurrency': ""
     }
-
-    @staticmethod
-    def find(payment_id, batch_id):
-        """
-        Retrieve a payment
-            A payment_id and batch_id are required::
-            Payment.find('P-dejrtewdsj',B-fjeracjmuflh')
-        """
-        config = Configuration(Configuration.public_key, Configuration.private_key)
-        return Gateway(config).payment.find(payment_id, batch_id)
-
-    @staticmethod
-    def create(body, batch_id):
-        """
-        Create a payment
-            A body and batch_id are required::
-            Payment.create(
-               {"recipient":{"id":"R-91XNJBKM30F06"},"sourceAmount":"100.10",
-               "memo":"Freelance payment"}
-        """
-        config = Configuration(Configuration.public_key, Configuration.private_key)
-        return Gateway(config).payment.create(body, batch_id)
-
-    @staticmethod
-    def update(payment_id, body, batch_id):
-        """
-        Update a payment
-            A payment_id, batch_id, and body are required::
-            Payment.update('B-fjeracjmuflh',{"sourceAmount":"900.90"},'P-jddfjwojd')
-        """
-        config = Configuration(Configuration.public_key, Configuration.private_key)
-        return Gateway(config).payment.update(payment_id, body, batch_id)
-
-    @staticmethod
-    def delete(payment_id, batch_id):
-        """
-        Delete a payment
-            A payment_id and batch_id are required::
-            Payment.delete('P-dejrtewdsj',B-fjeracjmuflh')
-        """
-        config = Configuration(Configuration.public_key, Configuration.private_key)
-        return Gateway(config).payment.delete(payment_id, batch_id)
-
-    @staticmethod
-    def search(page=1, page_number=10, term=""):
-        """
-        Query for a payment
-            Payment.search(1,10,'test')
-        """
-        config = Configuration(Configuration.public_key, Configuration.private_key)
-        return Gateway(config).payment.search(page, page_number, term)
 
     @staticmethod
     def _initialize(attributes):

@@ -1,7 +1,6 @@
 class Batch:
     """
-    A class that facilitates Client requests to
-    the Trolley API in regards to Batches.
+    A class representing Batch object.
     """
 
     _attributes = {

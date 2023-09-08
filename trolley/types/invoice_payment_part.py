@@ -1,4 +1,7 @@
 class InvoicePaymentPart:
+    """
+    A class representing Invoice Payment Part object.
+    """
 
     _attributes = {
         'invoiceId' : "",

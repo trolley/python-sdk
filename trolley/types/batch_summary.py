@@ -1,8 +1,7 @@
 
 class BatchSummary:
     """
-    A class that facilitates Client requests to
-    the Trolley API in regards to Batches.
+    A class representing Batch Summary object.
     """
 
     _attributes = {

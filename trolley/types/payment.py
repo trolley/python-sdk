@@ -1,8 +1,7 @@
 
 class Payment:
     """
-    A class that facilitates Client requests to
-    the Trolley API in regards to Payments.
+    A class representing Payment object.
     """
 
     _attributes = {

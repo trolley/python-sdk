@@ -2,7 +2,7 @@ from trolley.configuration import Configuration
 from trolley.client import Client
 from trolley.gateway import Gateway
 from trolley.recipient import Recipient
-from trolley.recipient_account import RecipientAccount
+from trolley.types.recipient_account import RecipientAccount
 from trolley.types.log import Log
 from trolley.types.batch import Batch
 from trolley.types.batch_summary import BatchSummary

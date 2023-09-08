@@ -6,7 +6,7 @@ import uuid
 sys.path.append(os.path.abspath('.'))
 
 from trolley.configuration import Configuration
-from trolley.recipient import Recipient
+from trolley.types.recipient import Recipient
 from trolley.types.recipient_account import RecipientAccount
 from TestSetup import TestSetup
 from TestHelper import TestHelper

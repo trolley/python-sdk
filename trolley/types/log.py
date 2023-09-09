@@ -1,8 +1,7 @@
 
 class Log:
     """
-    A class that facilitates Client requests to
-    the Trolley API in regards to Recipient Log.
+    A class representin Recipient Log object.
     """
 
     _attributes = {

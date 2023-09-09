@@ -1,11 +1,8 @@
-from trolley.configuration import Configuration
-from trolley.gateway import Gateway
-
 class Balances:
     """
-    A class that facilitates Client requests to
-    the Trolley API in regards to Balances.
+    A class representing Balances object.
     """
+
     _attributes = {
         'accountNumber': "",
         'amount': "",

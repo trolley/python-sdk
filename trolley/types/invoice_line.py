@@ -1,6 +1,9 @@
 from enum import Enum
 
 class InvoiceLine:
+    """
+    A class representing Invoice Line object.
+    """
 
     class categories:
         services        =  'services' 	        # Services
@@ -59,6 +62,6 @@ class InvoiceLine:
 
     @staticmethod
     def factory(attributes):
-        """Creates an instance of Payment and returns it. """
+        """Creates an instance of Invoice Line and returns it. """
         instance = InvoiceLine._initialize(attributes)
         return instance

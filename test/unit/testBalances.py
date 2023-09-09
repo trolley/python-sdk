@@ -5,7 +5,7 @@ import unittest
 sys.path.append(os.path.abspath('.'))
 
 import trolley.configuration
-import trolley.balances
+import trolley.types.balances
 from mock import MagicMock, Mock, patch
 
 
@@ -34,7 +34,7 @@ class TestBalances(unittest.TestCase):
             TestBalances.public_key)
         trolley.configuration.Configuration.set_private_key(
             TestBalances.private_key)
-        response = trolley.balances.Balances.find()
+        response = trolley.types.balances.Balances.find()
         status = {"ok": "true", "balances": {"USD": {"primary": "true", "amount": "10000.00",
                                                      "currency": "USD", "type": "paymentrails", "accountNumber": "null"}}}
         self.assertEqual(response, status)

@@ -3,6 +3,9 @@ from trolley.types.invoice_payment_part import InvoicePaymentPart
 
 
 class InvoicePayment:
+    """
+    A class representing Invoice Payment object.
+    """
 
     _attributes = {
         'batchId' : "",

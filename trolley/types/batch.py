@@ -1,7 +1,6 @@
-
-class BatchSummary:
+class Batch:
     """
-    A class representing Batch Summary object.
+    A class representing Batch object.
     """
 
     _attributes = {
@@ -13,13 +12,16 @@ class BatchSummary:
         "description": "",
         "sentAt": "",
         "status": "",
+        "tags": "",
         "totalPayments": "",
         "updatedAt": "",
-        "methods": "",
+        "quoteExpiredAt": "",
+        "payments": "",
     }
 
     @staticmethod
     def _initialize(attributes):
+        """Initialize fields and return a dict of attributes."""
         fields = [
             "id",
             "amount",
@@ -29,18 +31,23 @@ class BatchSummary:
             "description",
             "sentAt",
             "status",
+            "tags",
             "totalPayments",
             "updatedAt",
-            "methods",
+            "quoteExpiredAt",
+            "payments",
         ]
 
         for field in fields:
-            if attributes.get('batchSummary') is not None:
-                BatchSummary._attributes[field] = attributes['batchSummary'].get(field)
+            if attributes.get('batch') is None:
+                Batch._attributes[field] = attributes.get(field)
+            elif attributes['batch'].get(field) is not None:
+                Batch._attributes[field] = attributes['batch'][field]
 
-        return BatchSummary._attributes
+        return Batch._attributes
 
     @staticmethod
     def factory(attributes):
-        instance = BatchSummary._initialize(attributes)
+        """Creates an instance of Batch and returns it. """
+        instance = Batch._initialize(attributes)
         return instance

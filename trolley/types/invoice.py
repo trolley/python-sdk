@@ -1,4 +1,7 @@
 class Invoice:
+    """
+    A class representing Invoice object.
+    """
 
     _attributes = {
         'id': "",
@@ -50,6 +53,6 @@ class Invoice:
 
     @staticmethod
     def factory(attributes):
-        """Creates an instance of Payment and returns it. """
+        """Creates an instance of Invoice and returns it. """
         instance = Invoice._initialize(attributes)
         return instance

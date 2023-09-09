@@ -3,6 +3,7 @@ from trolley.exceptions.invalidFieldException import InvalidFieldException
 import trolley.configuration
 
 from trolley.types.meta import Meta
+from trolley.types.offline_payment import OfflinePayment
 
 class OfflinePaymentGateway(object):
     """
@@ -46,7 +47,7 @@ class OfflinePaymentGateway(object):
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
 
-        temppayment = trolley.OfflinePayment.factory(response)
+        temppayment = OfflinePayment.factory(response)
         offlinepayment = namedtuple("OfflinePayment", temppayment.keys())(*temppayment.values())
         return offlinepayment
 
@@ -61,7 +62,7 @@ class OfflinePaymentGateway(object):
         endpoint = f'/v1/recipients/{recipient_id}/offlinePayments/{offline_payment_id}'
         response = trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
-        temppayment = trolley.OfflinePayment.factory(response)
+        temppayment = OfflinePayment.factory(response)
         offlinepayment = namedtuple("OfflinePayment", temppayment.keys())(*temppayment.values())
         return offlinepayment
 
@@ -81,7 +82,7 @@ class OfflinePaymentGateway(object):
         offlinepayments = []
         count = 0
         for offlinepayment in response['offlinePayments']:
-            temppayment = trolley.OfflinePayment.factory(offlinepayment)
+            temppayment = OfflinePayment.factory(offlinepayment)
             newpayment = namedtuple("OfflinePayment", temppayment.keys())(*temppayment.values())
             offlinepayments.insert(count, newpayment)
             count = count + 1

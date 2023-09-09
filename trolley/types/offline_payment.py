@@ -1,4 +1,7 @@
 class OfflinePayment:
+    """
+    A class representing Offline Payment object.
+    """
 
     _attributes = {
         'id': "",
@@ -54,6 +57,6 @@ class OfflinePayment:
 
     @staticmethod
     def factory(attributes):
-        """Creates an instance of Payment and returns it. """
+        """Creates an instance of Offline Payment and returns it. """
         instance = OfflinePayment._initialize(attributes)
         return instance

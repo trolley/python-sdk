@@ -15,6 +15,7 @@ class RecipientAccountGateway(object):
         self.config = config
 
     """
+        [DEPRECATED] This method has been deprecated and will be removed in future releases.
         Retrieve all the recipient accounts
             A recipient_id is required::
             recipient_account.findAll('R-fjeracjmuflh')

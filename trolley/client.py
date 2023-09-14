@@ -41,7 +41,7 @@ class Client(object):
             headers = {'Content-Type': 'application/json',
                        'Authorization': authorization,
                        'X-PR-Timestamp': str(timestamp),
-                       'Trolley-Source': 'python-sdk_1.0.0'
+                       'Trolley-Source': 'python-sdk_1.0.1'
                        }
             
             if method == "GET":

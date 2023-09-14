@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup (
     name='trolleyhq',
-    version='1.0.0',
-    packages=["trolley", "trolley.exceptions"],
+    version='1.0.1',
+    packages=["trolley", "trolley.exceptions", "trolley.utils", "trolley.types"],
     package_data={"trolley": ["ssl/*"]},
     install_requires=['requests>=2.31.0'],
     author='Trolley',

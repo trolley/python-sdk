@@ -14,15 +14,19 @@ class InvoicePaymentGateway(object):
         self.config = config
 
     """ Creates a new Invoice Payment.  """
-    def create(self, body):
+    def create(self, body, batch_id=None):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
         if not isinstance(body, list):
             raise InvalidFieldException("Body must be of type list")
-        
+        if batch_id is not None and not isinstance(batch_id, str):
+            raise InvalidFieldException("Batch ID must be of type str")
+
         payload = {
             'ids' : body
         }
+        if batch_id is not None:
+            payload['batchId'] = batch_id
 
         endpoint = f'/v1/invoices/payment/create'
         response = trolley.Configuration.client(

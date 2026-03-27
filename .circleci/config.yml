@@ -1,0 +1,46 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@5.0.3
+
+defaults: &defaults
+  working_directory: ~/project
+  docker:
+    - image: cimg/python:3.9
+
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: pip-cache-v1-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+            pip install pytest pytest-cov coverage
+      - save_cache:
+          key: pip-cache-v1-{{ checksum "requirements.txt" }}
+          paths:
+            - ~/.cache/pip
+      - run:
+          name: Run unit tests with coverage
+          command: |
+            python -m pytest test/unit/ --cov=trolley --cov-report=xml --cov-report=term || true
+      - codecov/upload:
+          token: CODECOV_TOKEN
+          slug: trolley/python-sdk
+          files: coverage.xml
+          when: always
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test:
+          context: org-global
+          filters:
+            tags:
+              ignore: /.*/

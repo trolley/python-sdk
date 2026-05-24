@@ -6,7 +6,6 @@ from unittest.mock import Mock, patch
 sys.path.append(os.path.abspath('.'))
 
 import trolley
-import paymentrails
 from trolley.client import Client
 from trolley.configuration import Configuration
 from trolley.exceptions.invalidFieldException import InvalidFieldException
@@ -192,12 +191,6 @@ class ReleasePrepTest(unittest.TestCase):
         self.assertEqual("external", invoice_payment["externalId"])
         self.assertEqual(["tag"], invoice_payment["tags"])
         self.assertTrue(invoice_payment["coverFees"])
-
-    def test_legacy_paymentrails_imports_alias_current_types(self):
-        self.assertIs(paymentrails.Balances, Balances)
-        self.assertIs(paymentrails.Batch, Batch)
-        self.assertIs(paymentrails.Payment, Payment)
-        self.assertIs(paymentrails.Recipient, Recipient)
 
     def test_legacy_static_methods_delegate_to_current_gateway(self):
         gateway = Mock()

@@ -16,6 +16,10 @@ class BatchSummary:
         "totalPayments": "",
         "updatedAt": "",
         "methods": "",
+        "detail": "",
+        "total": "",
+        "balances": "",
+        "accounts": "",
     }
 
     @staticmethod
@@ -32,6 +36,10 @@ class BatchSummary:
             "totalPayments",
             "updatedAt",
             "methods",
+            "detail",
+            "total",
+            "balances",
+            "accounts",
         ]
 
         for field in fields:

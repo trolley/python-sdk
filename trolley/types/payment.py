@@ -49,7 +49,8 @@ class Payment:
         'taxBasisCurrency': "",
         'taxReportable': "",
         'withholdingAmount': "",
-        'withholdingCurrency': ""
+        'withholdingCurrency': "",
+        'visibleToRecipient': ""
     }
 
     @staticmethod
@@ -101,7 +102,8 @@ class Payment:
             'taxBasisCurrency',
             'taxReportable',
             'withholdingAmount',
-            'withholdingCurrency'
+            'withholdingCurrency',
+            'visibleToRecipient'
         ]
 
         for field in fields:

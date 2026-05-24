@@ -25,7 +25,7 @@ class PaymentGateway(object):
             raise InvalidFieldException("Payment id cannot be None.")
         if batch_id is None:
             raise InvalidFieldException("Batch id cannot be None.")
-        endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
+        endpoint = f'/v1/batches/{batch_id}/payments/{payment_id}'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
         temppayment = Payment.factory(response)
@@ -44,7 +44,7 @@ class PaymentGateway(object):
             raise InvalidFieldException("Body cannot be None.")
         elif batch_id is None:
             raise InvalidFieldException("Batch ID cannot be None.")
-        endpoint = '/v1/batches/' + batch_id + '/payments/'
+        endpoint = f'/v1/batches/{batch_id}/payments'
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
         temppayment = Payment.factory(response)
@@ -61,7 +61,7 @@ class PaymentGateway(object):
             raise InvalidFieldException("Payment id cannot be None.")
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
-        endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
+        endpoint = f'/v1/batches/{batch_id}/payments/{payment_id}'
         response = trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
         temppayment = Payment.factory(response)
@@ -76,10 +76,20 @@ class PaymentGateway(object):
     def delete(self, payment_id, batch_id):
         if payment_id is None:
             raise InvalidFieldException("Payment id cannot be None.")
-        endpoint = '/v1/batches/' + batch_id + '/payments/' + payment_id
+        endpoint = f'/v1/batches/{batch_id}/payments/{payment_id}'
         trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
         return True
+
+    def find_by_id(self, payment_id):
+        if payment_id is None:
+            raise InvalidFieldException("Payment id cannot be None.")
+        endpoint = f'/v1/payments/{payment_id}'
+        response = trolley.configuration.Configuration.client(
+            self.config).get(endpoint)
+        temppayment = Payment.factory(response)
+        payment = namedtuple("Payment", temppayment.keys())(*temppayment.values())
+        return payment
 
     """ Lists all payments under a batch.
      This is basically an alias to the search() method. """

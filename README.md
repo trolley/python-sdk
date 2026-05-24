@@ -28,7 +28,6 @@ $ pip install trolleyhq
 
 ```python
 from trolley.configuration import Configuration
-from trolley.recipients import Recipients
 
 client = Configuration.gateway("ACCESS_KEY","SECRET_KEY")
 response = client.recipient.find("R-WJniNq7PUAJetimmJ4")

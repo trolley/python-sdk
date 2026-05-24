@@ -23,7 +23,7 @@ class RecipientAccountGateway(object):
     def findAll(self, recipient_id):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id + '/accounts/'
+        endpoint = f'/v1/recipients/{recipient_id}/accounts/'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
 
@@ -46,7 +46,7 @@ class RecipientAccountGateway(object):
     def find(self, recipient_id, recipient_account_id):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
+        endpoint = f'/v1/recipients/{recipient_id}/accounts/{recipient_account_id}'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
         recipaccount = RecipientAccount.factory(
@@ -63,7 +63,7 @@ class RecipientAccountGateway(object):
     def create(self, recipient_id, body):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id + '/accounts'
+        endpoint = f'/v1/recipients/{recipient_id}/accounts'
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, body)
         recipaccount = RecipientAccount.factory(
@@ -81,7 +81,7 @@ class RecipientAccountGateway(object):
     def update(self, recipient_id, recipient_account_id, body):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
+        endpoint = f'/v1/recipients/{recipient_id}/accounts/{recipient_account_id}'
         response = trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
         recipaccount = RecipientAccount.factory(
@@ -98,7 +98,9 @@ class RecipientAccountGateway(object):
     def delete(self, recipient_id, recipient_account_id):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = '/v1/recipients/' + recipient_id + '/accounts/' + recipient_account_id
+        endpoint = f'/v1/recipients/{recipient_id}/accounts/{recipient_account_id}'
         trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
         return True
+
+    all = findAll

@@ -23,7 +23,7 @@ class BatchGateway(object):
     def find(self, batchid):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
-        endpoint = '/v1/batches/' + batchid
+        endpoint = f'/v1/batches/{batchid}'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
         tempbatch = Batch.factory(response)
@@ -59,7 +59,7 @@ class BatchGateway(object):
             raise InvalidFieldException("Batch id cannot be None.")
         if body is None:
             raise InvalidFieldException("Body cannot be None.")
-        endpoint = '/v1/batches/' + batchid
+        endpoint = f'/v1/batches/{batchid}'
         trolley.configuration.Configuration.client(
             self.config).patch(endpoint, body)
         return True
@@ -72,7 +72,7 @@ class BatchGateway(object):
     def delete(self, batchid):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
-        endpoint = '/v1/batches/' + batchid
+        endpoint = f'/v1/batches/{batchid}'
         trolley.configuration.Configuration.client(
             self.config).delete(endpoint)
         return True
@@ -90,13 +90,15 @@ class BatchGateway(object):
             raise InvalidFieldException("Batch IDs cannot be None.")
         endpoint = '/v1/batches/'
         trolley.configuration.Configuration.client(
-            self.config).delete(endpoint, batchids)
+            self.config).delete(endpoint, batchids if isinstance(batchids, dict) else {'ids': batchids})
         return True
     
     """ Lists all payments under a batch.
      This is basically an alias to the search() method. """
     def list_all_batches(self):
         return self.search()
+
+    all = list_all_batches
 
     """ Search for a batch with a search term.
      This method returns a generator which auto paginates.
@@ -157,7 +159,7 @@ class BatchGateway(object):
     def summary(self, batchid):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
-        endpoint = '/v1/batches/' + batchid + '/summary'
+        endpoint = f'/v1/batches/{batchid}/summary'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
         tempbatchsummary = BatchSummary.factory(
@@ -174,7 +176,7 @@ class BatchGateway(object):
     def generate_quote(self, batchid):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
-        endpoint = '/v1/batches/' + batchid + '/generate-quote'
+        endpoint = f'/v1/batches/{batchid}/generate-quote'
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, {})
         tempbatch = Batch.factory(response)
@@ -189,9 +191,11 @@ class BatchGateway(object):
     def process_batch(self, batchid):
         if batchid is None:
             raise InvalidFieldException("Batch id cannot be None.")
-        endpoint = '/v1/batches/' + batchid + '/start-processing'
+        endpoint = f'/v1/batches/{batchid}/start-processing'
         response = trolley.configuration.Configuration.client(
             self.config).post(endpoint, {})
         tempbatch = Batch.factory(response)
         batch = namedtuple("Batch", tempbatch.keys())(*tempbatch.values())
         return batch
+
+    start_processing = process_batch

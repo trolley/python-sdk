@@ -8,9 +8,18 @@ class InvoicePayment:
     """
 
     _attributes = {
+        'id': "",
         'batchId' : "",
         'paymentId' : "",
-        'invoicePayments' : [InvoicePaymentPart]
+        'invoiceId': "",
+        'invoiceLineId': "",
+        'amount': "",
+        'invoicePayments' : [InvoicePaymentPart],
+        'status': "",
+        'memo': "",
+        'externalId': "",
+        'tags': "",
+        'coverFees': ""
     }
 
     @staticmethod
@@ -18,9 +27,18 @@ class InvoicePayment:
         """Initialize fields and return a dict of attributes."""
 
         fields = [
+            'id',
             'batchId',
             'paymentId',
+            'invoiceId',
+            'invoiceLineId',
+            'amount',
             'invoicePayments',
+            'status',
+            'memo',
+            'externalId',
+            'tags',
+            'coverFees',
         ]
         
         for field in fields:

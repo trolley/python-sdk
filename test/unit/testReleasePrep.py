@@ -29,15 +29,49 @@ class FakeClient:
         self.calls.append(("GET", endpoint, None))
         if endpoint.startswith("/v1/verifications"):
             return {"ok": True, "verifications": [{"id": "WV-123", "type": "watchlist"}], "meta": {"page": 1, "pages": 1, "records": 1}}
+        if endpoint.startswith("/v1/balances"):
+            return {"ok": True, "balances": [{"type": "paymentrails", "amount": "10.00"}]}
+        if endpoint.endswith("/summary"):
+            return {"ok": True, "batchSummary": {"id": "B-123", "status": "open"}}
+        if "/payments/" in endpoint or endpoint.startswith("/v1/payments/"):
+            return {"ok": True, "payment": {"id": "P-123", "visibleToRecipient": False}}
+        if endpoint.startswith("/v1/batches?"):
+            return {"ok": True, "batches": [{"id": "B-123"}], "meta": {"page": 1, "pages": 1, "records": 1}}
+        if endpoint.startswith("/v1/batches/"):
+            return {"ok": True, "batch": {"id": "B-123", "status": "open"}}
+        if endpoint.endswith("/accounts/"):
+            return {"ok": True, "accounts": [{"id": "A-123"}]}
+        if "/accounts/" in endpoint:
+            return {"ok": True, "account": {"id": "A-123"}}
+        if endpoint.startswith("/v1/recipients/"):
+            return {"ok": True, "recipient": {"id": "R-123", "accounts": []}}
         return {"ok": True, "balances": []}
 
     def post(self, endpoint, body):
         self.calls.append(("POST", endpoint, body))
+        if endpoint.startswith("/v1/batches/"):
+            return {"ok": True, "batch": {"id": "B-123", "status": "open"}}
+        if endpoint.startswith("/v1/invoices/payment/create"):
+            return {"ok": True, "batchId": body.get("batchId"), "paymentId": "P-123", "invoicePayments": []}
+        if endpoint.startswith("/v1/batches"):
+            return {"ok": True, "batch": {"id": "B-123", "status": "open"}}
+        if endpoint.startswith("/v1/recipients/") and endpoint.endswith("/accounts"):
+            return {"ok": True, "account": {"id": "A-123"}}
+        if endpoint.endswith("/payments"):
+            return {"ok": True, "payment": {"id": "P-123", "visibleToRecipient": False}}
         return {"ok": True, "verifications": [{"id": "WV-123", "type": "watchlist"}], "meta": {"page": 1, "pages": 1, "records": 1}}
 
     def patch(self, endpoint, body):
         self.calls.append(("PATCH", endpoint, body))
+        if "/payments/" in endpoint:
+            return {"ok": True, "payment": {"id": "P-123", "visibleToRecipient": False}}
+        if "/accounts/" in endpoint:
+            return {"ok": True, "account": {"id": "A-123"}}
         return {"ok": True, "verifications": [{"id": "WV-123", "type": "watchlist"}], "meta": {"page": 1, "pages": 1, "records": 1}}
+
+    def delete(self, endpoint, body={}):
+        self.calls.append(("DELETE", endpoint, body))
+        return {"ok": True}
 
 
 class ReleasePrepTest(unittest.TestCase):
@@ -86,6 +120,53 @@ class ReleasePrepTest(unittest.TestCase):
             gateway.invoice_payment.create(["I-123"], batch_id="B-123", memo="memo")
 
         self.assertEqual(("POST", "/v1/invoices/payment/create", {"ids": ["I-123"], "batchId": "B-123", "memo": "memo"}), fake_client.calls[0])
+
+    def test_gateway_paths_are_documented_without_breaking_existing_signatures(self):
+        gateway = Gateway(Configuration("public", "private"))
+        fake_client = FakeClient()
+
+        with patch("trolley.configuration.Configuration.client", return_value=fake_client):
+            gateway.balances.get_all_balances()
+            gateway.balances.get_trolley_balance()
+            gateway.balances.get_paypal_balance()
+            gateway.batch.find("B-123")
+            gateway.batch.generate_quote("B-123")
+            gateway.batch.process_batch("B-123")
+            gateway.batch.summary("B-123")
+            gateway.batch.delete("B-123")
+            gateway.payment.create({"recipient": {"id": "R-123"}, "sourceAmount": "10.00"}, "B-123")
+            gateway.payment.find("P-123", "B-123")
+            gateway.payment.find_by_id("P-123")
+            gateway.payment.update("P-123", {"memo": "updated"}, "B-123")
+            gateway.payment.delete("P-123", "B-123")
+            gateway.recipient.find("R-123")
+            gateway.recipient.delete_multiple(["R-123", "R-456"])
+            gateway.recipient_account.create("R-123", {"type": "paypal", "emailAddress": "test@example.com"})
+            gateway.recipient_account.find("R-123", "A-123")
+            gateway.recipient_account.update("R-123", "A-123", {"primary": True})
+            gateway.recipient_account.delete("R-123", "A-123")
+            gateway.recipient_account.all("R-123")
+
+        self.assertIn(("GET", "/v1/balances", None), fake_client.calls)
+        self.assertIn(("GET", "/v1/balances/paymentrails", None), fake_client.calls)
+        self.assertIn(("GET", "/v1/balances/paypal", None), fake_client.calls)
+        self.assertIn(("GET", "/v1/batches/B-123", None), fake_client.calls)
+        self.assertIn(("POST", "/v1/batches/B-123/generate-quote", {}), fake_client.calls)
+        self.assertIn(("POST", "/v1/batches/B-123/start-processing", {}), fake_client.calls)
+        self.assertIn(("GET", "/v1/batches/B-123/summary", None), fake_client.calls)
+        self.assertIn(("DELETE", "/v1/batches/B-123", {}), fake_client.calls)
+        self.assertIn(("POST", "/v1/batches/B-123/payments", {"recipient": {"id": "R-123"}, "sourceAmount": "10.00"}), fake_client.calls)
+        self.assertIn(("GET", "/v1/batches/B-123/payments/P-123", None), fake_client.calls)
+        self.assertIn(("GET", "/v1/payments/P-123", None), fake_client.calls)
+        self.assertIn(("PATCH", "/v1/batches/B-123/payments/P-123", {"memo": "updated"}), fake_client.calls)
+        self.assertIn(("DELETE", "/v1/batches/B-123/payments/P-123", {}), fake_client.calls)
+        self.assertIn(("GET", "/v1/recipients/R-123", None), fake_client.calls)
+        self.assertIn(("DELETE", "/v1/recipients/", {"ids": ["R-123", "R-456"]}), fake_client.calls)
+        self.assertIn(("POST", "/v1/recipients/R-123/accounts", {"type": "paypal", "emailAddress": "test@example.com"}), fake_client.calls)
+        self.assertIn(("GET", "/v1/recipients/R-123/accounts/A-123", None), fake_client.calls)
+        self.assertIn(("PATCH", "/v1/recipients/R-123/accounts/A-123", {"primary": True}), fake_client.calls)
+        self.assertIn(("DELETE", "/v1/recipients/R-123/accounts/A-123", {}), fake_client.calls)
+        self.assertIn(("GET", "/v1/recipients/R-123/accounts/", None), fake_client.calls)
 
     def test_documented_response_attributes_are_mapped(self):
         payment = Payment.factory({"payment": {"id": "P-123", "visibleToRecipient": False}})

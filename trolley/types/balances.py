@@ -52,3 +52,8 @@ class Balances:
         """Creates an instance of Balances and returns it. """
         instance = Balances._initialize(attributes)
         return instance
+
+    @staticmethod
+    def find(term=""):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).balances.get_all_balances(term)

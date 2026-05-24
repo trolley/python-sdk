@@ -6,7 +6,10 @@ class BaseException(BaseException):
     """
 
     def __init__(self, value):
-        BaseException.error_array = json.loads(value)
+        try:
+            BaseException.error_array = json.loads(value)
+        except (TypeError, json.JSONDecodeError):
+            BaseException.error_array = {"errors": [{"message": value}]}
         self.value = value
 
     def __str__(self):

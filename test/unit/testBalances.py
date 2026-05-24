@@ -26,6 +26,9 @@ class TestBalances(unittest.TestCase):
         self.patcher = patch('paymentrails.balances.Balances.find', fake_find)
         self.patcher.start()
 
+    def tearDown(self):
+        self.patcher.stop()
+
     public_key = ("publickey")
     private_key = ("privatekey")
 

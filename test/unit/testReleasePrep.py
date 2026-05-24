@@ -1,14 +1,18 @@
 import os
 import sys
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 sys.path.append(os.path.abspath('.'))
 
 import trolley
+import paymentrails
 from trolley.client import Client
 from trolley.configuration import Configuration
+from trolley.exceptions.invalidFieldException import InvalidFieldException
 from trolley.gateway import Gateway
+from trolley.types.balances import Balances
+from trolley.types.batch import Batch
 from trolley.types.invoice_payment import InvoicePayment
 from trolley.types.offline_payment import OfflinePayment
 from trolley.types.payment import Payment
@@ -188,6 +192,71 @@ class ReleasePrepTest(unittest.TestCase):
         self.assertEqual("external", invoice_payment["externalId"])
         self.assertEqual(["tag"], invoice_payment["tags"])
         self.assertTrue(invoice_payment["coverFees"])
+
+    def test_legacy_paymentrails_imports_alias_current_types(self):
+        self.assertIs(paymentrails.Balances, Balances)
+        self.assertIs(paymentrails.Batch, Batch)
+        self.assertIs(paymentrails.Payment, Payment)
+        self.assertIs(paymentrails.Recipient, Recipient)
+
+    def test_legacy_static_methods_delegate_to_current_gateway(self):
+        gateway = Mock()
+        gateway.balances.get_all_balances.return_value = "balances"
+        gateway.batch.find.return_value = "batch_find"
+        gateway.batch.create.return_value = "batch_create"
+        gateway.batch.update.return_value = "batch_update"
+        gateway.batch.delete.return_value = "batch_delete"
+        gateway.batch.search_by_page.return_value = "batch_search"
+        gateway.batch.summary.return_value = "batch_summary"
+        gateway.batch.generate_quote.return_value = "batch_quote"
+        gateway.batch.process_batch.return_value = "batch_process"
+        gateway.payment.find.return_value = "payment_find"
+        gateway.payment.create.return_value = "payment_create"
+        gateway.payment.update.return_value = "payment_update"
+        gateway.payment.delete.return_value = "payment_delete"
+        gateway.payment.search_by_page.return_value = "payment_search"
+        gateway.recipient.find.return_value = "recipient_find"
+        gateway.recipient.retrieve_logs.return_value = "recipient_logs"
+        gateway.recipient.get_all_payments.return_value = "recipient_payments"
+        gateway.recipient.create.return_value = "recipient_create"
+        gateway.recipient.update.return_value = "recipient_update"
+        gateway.recipient.delete.return_value = "recipient_delete"
+        gateway.recipient.search_by_page.return_value = "recipient_search"
+
+        with patch("trolley.configuration.Configuration.gateway", return_value=gateway):
+            self.assertEqual("balances", Balances.find("paypal"))
+            self.assertEqual("batch_find", Batch.find("B-123"))
+            self.assertEqual("batch_create", Batch.create({"description": "batch"}))
+            self.assertEqual("batch_update", Batch.update("B-123", {"description": "updated"}))
+            self.assertEqual("batch_delete", Batch.delete("B-123"))
+            self.assertEqual("batch_search", Batch.search(2, 20, "term"))
+            self.assertEqual("batch_summary", Batch.summary("B-123"))
+            self.assertEqual("batch_quote", Batch.generate_quote("B-123"))
+            self.assertEqual("batch_process", Batch.process_batch("B-123"))
+            self.assertEqual("payment_find", Payment.find("P-123", "B-123"))
+            self.assertEqual("payment_create", Payment.create({"amount": "10.00"}, "B-123"))
+            self.assertEqual("payment_update", Payment.update("P-123", "B-123", {"memo": "updated"}))
+            self.assertEqual("payment_delete", Payment.delete("P-123", "B-123"))
+            self.assertEqual("payment_search", Payment.search(3, 30, "payment-term"))
+            self.assertEqual("recipient_find", Recipient.find("R-123"))
+            self.assertEqual("recipient_logs", Recipient.find("R-123", "logs"))
+            self.assertEqual("recipient_payments", Recipient.find("R-123", "payments"))
+            self.assertEqual("recipient_create", Recipient.create({"type": "individual"}))
+            self.assertEqual("recipient_update", Recipient.update("R-123", {"firstName": "Ada"}))
+            self.assertEqual("recipient_delete", Recipient.delete("R-123"))
+            self.assertEqual("recipient_search", Recipient.search(4, 40, "recipient-term"))
+
+        gateway.balances.get_all_balances.assert_called_once_with("paypal")
+        gateway.batch.search_by_page.assert_called_once_with("term", 2, 20)
+        gateway.payment.update.assert_called_once_with("P-123", {"memo": "updated"}, "B-123")
+        gateway.payment.search_by_page.assert_called_once_with("", "payment-term", 3, 30)
+        gateway.recipient.search_by_page.assert_called_once_with(4, 40, "recipient-term")
+
+    def test_exceptions_accept_plain_string_messages(self):
+        error = InvalidFieldException("Body cannot be None")
+
+        self.assertEqual("Body cannot be None", error.value)
+        self.assertEqual([{"message": "Body cannot be None"}], error.get_error_array())
 
 
 if __name__ == "__main__":

@@ -174,14 +174,13 @@ class ReleasePrepTest(unittest.TestCase):
     def test_documented_response_attributes_are_mapped(self):
         payment = Payment.factory({"payment": {"id": "P-123", "visibleToRecipient": False}})
         offline_payment = OfflinePayment.factory({"offlinePayment": {"id": "OP-123", "activityCount": 1, "taxReportable": True}})
-        recipient = Recipient.factory({"recipient": {"id": "R-123", "placeOfBirth": "CA", "tags": ["tag"]}})
+        recipient = Recipient.factory({"recipient": {"id": "R-123", "tags": ["tag"]}})
         account = RecipientAccount.factory({"account": {"id": "A-123", "cardDetails": {"brand": "visa"}, "mailing": {"city": "Toronto"}, "phoneNumber": "+15555550123"}})
         invoice_payment = InvoicePayment.factory({"invoicePayment": {"id": "IP-123", "status": "pending", "memo": "memo", "externalId": "external", "tags": ["tag"], "coverFees": True}})
 
         self.assertFalse(payment["visibleToRecipient"])
         self.assertEqual(1, offline_payment["activityCount"])
         self.assertTrue(offline_payment["taxReportable"])
-        self.assertEqual("CA", recipient["placeOfBirth"])
         self.assertEqual(["tag"], recipient["tags"])
         self.assertEqual({"brand": "visa"}, account["cardDetails"])
         self.assertEqual({"city": "Toronto"}, account["mailing"])

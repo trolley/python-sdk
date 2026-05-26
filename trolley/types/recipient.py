@@ -24,10 +24,10 @@ class Recipient:
         "createdAt": "",
         "gravatarUrl": "",
         "governmentId": "",
-        "ssn": "",
         "primaryCurrency": "",
         "merchantId": "",
         "payoutMethod": "",
+        "tags": "",
         "compliance": "",
         "accounts": "",
         "address": "",
@@ -59,10 +59,10 @@ class Recipient:
             "createdAt",
             "gravatarUrl",
             "governmentId",
-            "ssn",
             "primaryCurrency",
             "merchantId",
             "payoutMethod",
+            "tags",
             "compliance",
             "accounts",
             "address",
@@ -81,3 +81,33 @@ class Recipient:
         """Creates an instance of Recipient and returns it. """
         instance = Recipient._initialize(attributes)
         return instance
+
+    @staticmethod
+    def find(recipient_id, term=""):
+        from trolley.configuration import Configuration
+        gateway = Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key())
+        if term == "logs":
+            return gateway.recipient.retrieve_logs(recipient_id)
+        if term == "payments":
+            return gateway.recipient.get_all_payments(recipient_id)
+        return gateway.recipient.find(recipient_id)
+
+    @staticmethod
+    def create(body):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).recipient.create(body)
+
+    @staticmethod
+    def update(recipient_id, body):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).recipient.update(recipient_id, body)
+
+    @staticmethod
+    def delete(recipient_id):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).recipient.delete(recipient_id)
+
+    @staticmethod
+    def search(page=1, page_size=10, term=""):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).recipient.search_by_page(page, page_size, term)

@@ -7,7 +7,12 @@ class InvoicePaymentPart:
         'invoiceId' : "",
         'invoiceLineId' : "",
         'paymentId' : "",
-        'amount' : ""
+        'amount' : "",
+        'status': "",
+        'memo': "",
+        'externalId': "",
+        'tags': "",
+        'coverFees': ""
     }
 
     @staticmethod
@@ -18,7 +23,12 @@ class InvoicePaymentPart:
             'invoiceId',
             'invoiceLineId',
             'paymentId',
-            'amount'
+            'amount',
+            'status',
+            'memo',
+            'externalId',
+            'tags',
+            'coverFees'
         ]
 
         for field in fields:

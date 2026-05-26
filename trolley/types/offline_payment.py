@@ -15,12 +15,14 @@ class OfflinePayment:
         'externalId': "",
         'memo': "",
         'tags': "",
+        'taxReportable': "",
         'category': "",
         'processedAt': "",
         'enteredAmount': "",
         'updatedAt': "",
         'createdAt': "",
-        'deletedAt': ""
+        'deletedAt': "",
+        'activityCount': ""
     }
 
     @staticmethod
@@ -39,12 +41,14 @@ class OfflinePayment:
             'externalId',
             'memo',
             'tags',
+            'taxReportable',
             'category',
             'processedAt',
             'enteredAmount',
             'updatedAt',
             'createdAt',
-            'deletedAt'
+            'deletedAt',
+            'activityCount'
         ]
 
         for field in fields:

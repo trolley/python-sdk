@@ -23,8 +23,11 @@ def fake_find():
 class TestBalances(unittest.TestCase):
 
     def setUp(self):
-        self.patcher = patch('paymentrails.balances.Balances.find', fake_find)
+        self.patcher = patch('trolley.types.balances.Balances.find', fake_find)
         self.patcher.start()
+
+    def tearDown(self):
+        self.patcher.stop()
 
     public_key = ("publickey")
     private_key = ("privatekey")

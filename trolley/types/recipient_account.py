@@ -23,7 +23,10 @@ class RecipientAccount:
         "bankAddress": "",
         "bankCity": "",
         "bankRegionCode": "",
-        "bankPostalCode": ""
+        "bankPostalCode": "",
+        "cardDetails": "",
+        "mailing": "",
+        "phoneNumber": ""
     }
 
     @staticmethod
@@ -49,6 +52,9 @@ class RecipientAccount:
             "bankCity",
             "bankRegionCode",
             "bankPostalCode",
+            "cardDetails",
+            "mailing",
+            "phoneNumber",
         ]
 
         for field in fields:

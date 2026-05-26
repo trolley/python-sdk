@@ -49,7 +49,8 @@ class Payment:
         'taxBasisCurrency': "",
         'taxReportable': "",
         'withholdingAmount': "",
-        'withholdingCurrency': ""
+        'withholdingCurrency': "",
+        'visibleToRecipient': ""
     }
 
     @staticmethod
@@ -101,7 +102,8 @@ class Payment:
             'taxBasisCurrency',
             'taxReportable',
             'withholdingAmount',
-            'withholdingCurrency'
+            'withholdingCurrency',
+            'visibleToRecipient'
         ]
 
         for field in fields:
@@ -117,3 +119,30 @@ class Payment:
         """Creates an instance of Payment and returns it. """
         instance = Payment._initialize(attributes)
         return instance
+
+    @staticmethod
+    def find(payment_id, batch_id, term=""):
+        from trolley.configuration import Configuration
+        if term:
+            return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).recipient.get_all_payments(payment_id)
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).payment.find(payment_id, batch_id)
+
+    @staticmethod
+    def create(body, batch_id):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).payment.create(body, batch_id)
+
+    @staticmethod
+    def update(payment_id, batch_id, body):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).payment.update(payment_id, body, batch_id)
+
+    @staticmethod
+    def delete(payment_id, batch_id):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).payment.delete(payment_id, batch_id)
+
+    @staticmethod
+    def search(page=1, page_size=10, term=""):
+        from trolley.configuration import Configuration
+        return Configuration.gateway(Configuration.get_public_key(), Configuration.get_private_key()).payment.search_by_page("", term, page, page_size)

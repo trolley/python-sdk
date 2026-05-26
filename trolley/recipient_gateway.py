@@ -26,7 +26,10 @@ class RecipientGateway(object):
     def find(self, recipient_id, term=""):
         if recipient_id is None:
             raise InvalidFieldException("Recipient id cannot be None.")
-        endpoint = f'/v1/recipients/{recipient_id}/{term}'
+        if term:
+            endpoint = f'/v1/recipients/{recipient_id}/{term}'
+        else:
+            endpoint = f'/v1/recipients/{recipient_id}'
         response = trolley.configuration.Configuration.client(
             self.config).get(endpoint)
         recip = Recipient.factory(response)
@@ -96,7 +99,7 @@ class RecipientGateway(object):
         
         endpoint = '/v1/recipients/'
         trolley.configuration.Configuration.client(
-            self.config).delete(endpoint, recipient_ids)
+            self.config).delete(endpoint, recipient_ids if isinstance(recipient_ids, dict) else {'ids': recipient_ids})
         return True
 
     """

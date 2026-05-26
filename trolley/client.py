@@ -4,6 +4,7 @@ import hmac
 import hashlib
 import json
 import requests
+import trolley
 
 from trolley.exceptions.invalidFieldException import InvalidFieldException
 from trolley.exceptions.unexpectedException import UnexpectedException
@@ -35,13 +36,14 @@ class Client(object):
 
     def sendRequest(self,endpoint,method,body=""):
         try:
+            method = method.upper()
             timestamp = int(time.time())
             authorization = self.generate_authorization(timestamp, method, endpoint, self.config, body)
 
             headers = {'Content-Type': 'application/json',
                        'Authorization': authorization,
                        'X-PR-Timestamp': str(timestamp),
-                       'Trolley-Source': 'python-sdk_1.0.1'
+                       'Trolley-Source': 'python-sdk_' + trolley.__version__
                        }
             
             if method == "GET":
@@ -54,14 +56,22 @@ class Client(object):
                 response = requests.delete(self.config.enviroment + endpoint, headers=headers, json=body)
             else:
                 self.throw_status_code_exception(None, "Invalid Method")
-            if response.status_code != 200 and response.status_code != 204:
+            if response.status_code < 200 or response.status_code > 299:
                 self.throw_status_code_exception(response.status_code, response.content.decode("utf-8"))
 
+            if not response.content:
+                return {}
             data = json.loads(response.content.decode("utf-8"))
             return data
 
         except requests.exceptions.RequestException:
             raise InvalidServerConnectionException("Invalid Connection to the server")
+
+    def request(self, method, endpoint, body=None):
+        """
+        Makes an authenticated request to any Trolley API endpoint.
+        """
+        return self.sendRequest(endpoint, method, "" if body is None else body)
 
     def get(self, endpoint):
         """

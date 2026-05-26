@@ -15,4 +15,4 @@ from trolley.types.invoice_payment import InvoicePayment
 from trolley.types.invoice_payment_part import InvoicePaymentPart
 from trolley.types.verification import Verification
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"

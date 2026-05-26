@@ -87,7 +87,7 @@ class ReleasePrepTest(unittest.TestCase):
 
         self.assertEqual({"ok": True}, response)
         headers = request.call_args.kwargs["headers"]
-        self.assertEqual("python-sdk_1.1.0", headers["Trolley-Source"])
+        self.assertEqual("python-sdk_1.1.1", headers["Trolley-Source"])
         self.assertTrue(headers["Authorization"].startswith("prsign public:"))
 
     def test_gateway_exposes_generic_request_and_trust_alias(self):

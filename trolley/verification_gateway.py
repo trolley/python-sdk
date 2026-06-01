@@ -43,11 +43,7 @@ class VerificationGateway(object):
         return self.__build_verifications_from_response(response, True)
 
     def trigger_watchlist(self, body):
-        if body is None:
-            raise InvalidFieldException("Body cannot be None.")
-        endpoint = '/v1/verifications/watchlist/trigger'
-        response = trolley.configuration.Configuration.client(self.config).post(endpoint, body)
-        return self.__build_verifications_from_response(response, True)
+        return self.trigger('watchlist', body)
 
     def __build_verifications_from_response(self, response, include_meta=False):
         verifications = []

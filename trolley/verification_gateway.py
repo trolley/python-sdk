@@ -47,8 +47,17 @@ class VerificationGateway(object):
             raise InvalidFieldException("Body cannot be None.")
         endpoint = '/v1/verifications/trigger'
         response = trolley.configuration.Configuration.client(self.config).post(endpoint, body)
+        triggered_verification = namedtuple(
+            "TriggeredVerification",
+            ["type", "status", "verificationId", "error"],
+        )
         verifications = [
-            namedtuple("TriggeredVerification", verification.keys())(*verification.values())
+            triggered_verification(
+                verification.get('type'),
+                verification.get('status'),
+                verification.get('verificationId'),
+                verification.get('error'),
+            )
             for verification in response.get('verifications', [])
         ]
         return namedtuple(

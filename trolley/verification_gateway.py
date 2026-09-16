@@ -42,6 +42,33 @@ class VerificationGateway(object):
         response = trolley.configuration.Configuration.client(self.config).post(endpoint, body)
         return self.__build_verifications_from_response(response, True)
 
+    def trigger_identity_or_business_verification(self, body):
+        if body is None:
+            raise InvalidFieldException("Body cannot be None.")
+        endpoint = '/v1/verifications/trigger'
+        response = trolley.configuration.Configuration.client(self.config).post(endpoint, body)
+        triggered_verification = namedtuple(
+            "TriggeredVerification",
+            ["type", "status", "verificationId", "error"],
+        )
+        verifications = [
+            triggered_verification(
+                verification.get('type'),
+                verification.get('status'),
+                verification.get('verificationId'),
+                verification.get('error'),
+            )
+            for verification in response.get('verifications', [])
+        ]
+        return namedtuple(
+            "IdentityOrBusinessVerificationResult",
+            ["ok", "recipientId", "verifications"],
+        )(
+            response.get('ok'),
+            response.get('recipientId'),
+            verifications,
+        )
+
     def trigger_watchlist(self, body):
         if body is None:
             raise InvalidFieldException("Body cannot be None.")

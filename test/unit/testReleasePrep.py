@@ -52,6 +52,18 @@ class FakeClient:
 
     def post(self, endpoint, body):
         self.calls.append(("POST", endpoint, body))
+        if endpoint == "/v1/verifications/trigger":
+            return {
+                "ok": True,
+                "recipientId": body["recipientId"],
+                "verifications": [
+                    {
+                        "type": body["types"][0],
+                        "status": "created",
+                        "verificationId": "IV-123",
+                    }
+                ],
+            }
         if endpoint.startswith("/v1/batches/"):
             return {"ok": True, "batch": {"id": "B-123", "status": "open"}}
         if endpoint.startswith("/v1/invoices/payment/create"):
@@ -105,15 +117,28 @@ class ReleasePrepTest(unittest.TestCase):
             expire = gateway.verification.expire({"type": "individual", "verificationIds": ["IV-123"]})
             trigger = gateway.verification.trigger("individual", {"recipientIds": ["R-123"]})
             watchlist = gateway.verification.trigger_watchlist({"recipientIds": ["R-123"]})
+            identity = gateway.verification.trigger_identity_or_business_verification({
+                "recipientId": "R-123",
+                "types": ["individual"],
+                "retryAllowed": True,
+            })
 
         self.assertEqual("WV-123", search[0].id)
         self.assertEqual("WV-123", expire[0].id)
         self.assertEqual("WV-123", trigger[0].id)
         self.assertEqual("WV-123", watchlist[0].id)
+        self.assertTrue(identity.ok)
+        self.assertEqual("R-123", identity.recipientId)
+        self.assertEqual("IV-123", identity.verifications[0].verificationId)
         self.assertEqual(("GET", "/v1/verifications?verificationType=watchlist&page=1&pageSize=10", None), fake_client.calls[0])
         self.assertEqual(("PATCH", "/v1/verifications/expire", {"type": "individual", "verificationIds": ["IV-123"]}), fake_client.calls[1])
         self.assertEqual(("POST", "/v1/verifications/individual/trigger", {"recipientIds": ["R-123"]}), fake_client.calls[2])
         self.assertEqual(("POST", "/v1/verifications/watchlist/trigger", {"recipientIds": ["R-123"]}), fake_client.calls[3])
+        self.assertEqual(("POST", "/v1/verifications/trigger", {
+            "recipientId": "R-123",
+            "types": ["individual"],
+            "retryAllowed": True,
+        }), fake_client.calls[4])
 
     def test_invoice_payment_create_preserves_existing_body_and_adds_batch_id(self):
         gateway = Gateway(Configuration("public", "private"))

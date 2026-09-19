@@ -8,6 +8,7 @@ from trolley.invoice_gateway import InvoiceGateway
 from trolley.invoice_line_gateway import InvoiceLineGateway
 from trolley.invoice_payment_gateway import InvoicePaymentGateway
 from trolley.verification_gateway import VerificationGateway
+from trolley.partner_gateway import PartnerGateway
 import trolley.configuration
 
 
@@ -35,6 +36,7 @@ class Gateway(object):
         self.invoice_payment = InvoicePaymentGateway(self, config)
         self.verification = VerificationGateway(self, config)
         self.trust = self.verification
+        self.partner = PartnerGateway(self, config)
 
     def request(self, method, endpoint, body=None):
         return trolley.configuration.Configuration.client(self.config).request(method, endpoint, body)

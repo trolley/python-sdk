@@ -13,8 +13,11 @@ class PartnerGateway(object):
     def _client(self):
         return trolley.configuration.Configuration.client(self.config)
 
-    def get_fees(self):
-        return self._client().get('/v1/fees')
+    def get_fees(self, currency=None):
+        endpoint = '/v1/fees'
+        if currency:
+            endpoint += '?currency={}'.format(quote(currency, safe=''))
+        return self._client().get(endpoint)
 
     def update_fees(self, body):
         return self._client().patch('/v1/fees', body)

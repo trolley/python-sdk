@@ -14,6 +14,7 @@ class TestPartnerGateway(unittest.TestCase):
         body = {'enabled': True}
 
         partner.get_fees()
+        partner.get_fees('USD')
         partner.update_fees(body)
         partner.list_payout_methods()
         partner.get_payout_method('bank-transfer')
@@ -31,6 +32,7 @@ class TestPartnerGateway(unittest.TestCase):
 
         self.assertEqual([
             unittest.mock.call('/v1/fees'),
+            unittest.mock.call('/v1/fees?currency=USD'),
             unittest.mock.call('/v1/payout-methods'),
             unittest.mock.call('/v1/payout-methods/bank-transfer'),
             unittest.mock.call('/v1/processing-settings'),

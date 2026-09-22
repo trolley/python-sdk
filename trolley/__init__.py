@@ -14,5 +14,6 @@ from trolley.types.invoice_line import InvoiceLine
 from trolley.types.invoice_payment import InvoicePayment
 from trolley.types.invoice_payment_part import InvoicePaymentPart
 from trolley.types.verification import Verification
+from trolley.types.fees import RevenueStream, RoutePricing
 
 __version__ = "1.1.1"
